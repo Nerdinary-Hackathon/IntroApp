@@ -2,6 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <color name="color_1a">#A1A1A1</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_050066">#050066</color>
+    <color name="color_cccccc">#CCCCCC</color>
 
     <color name="pm_deep">#FF8585</color>
     <color name="pm_soft">#FFD1D1</color>

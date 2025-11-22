@@ -24,6 +24,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     buildTypes {
         release {
@@ -52,6 +53,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // navigation
+    implementation(libs.androidx.fragment.navigation)
+    implementation(libs.androidx.ui.navigation)
 
     // hilt
     implementation(libs.hilt)
