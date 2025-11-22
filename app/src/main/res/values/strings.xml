@@ -59,4 +59,8 @@
     <string name="newcomer">신입 (1년 미만)</string>
     <string name="junior">주니어 (1~3년)</string>
     <string name="senior">시니어 (3년 이상)</string>
+    
+    <!-- 온보딩 - 5번 -->
+    <string name="profile_setting_complete">프로필 설정 완료!</string>
+    <string name="profile_setting_complete_desc">님의 프로필이\n등록되었습니다.</string>
 </resources>

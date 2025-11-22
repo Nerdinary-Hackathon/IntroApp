@@ -2,15 +2,22 @@ package com.example.introapp.presentation.ui.onboarding
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.introapp.R
 import com.example.introapp.databinding.FragmentOnboarding5Binding
 import com.example.introapp.presentation.ui.HomeActivity
+import com.example.introapp.presentation.ui.onboarding.component.CustomTypefaceSpan
 import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
 import com.example.introapp.presentation.viewmodel.SubmitState
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,9 +46,31 @@ class OnboardingFragment5 : Fragment() {
 
         setupObservers()
 
-        Timber.d("## [온보딩 뷰모델] 뷰모델 값 확인 : ${viewModel.onboardingData.value.toProfile()}")
-
         binding.run {
+            val nickname = viewModel.onboardingData.value.page1.nickname
+            val descText = getString(R.string.profile_setting_complete_desc) // "님의 프로필이\n등록되었습니다."
+            val fullText = "$nickname$descText"
+            val spannable = SpannableString(fullText)
+
+            val color = ContextCompat.getColor(requireContext(), R.color.backend_deep)
+            spannable.setSpan(
+                ForegroundColorSpan(color),
+                0,
+                nickname.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            // 닉네임 부분에 pretendard_bold 폰트 적용
+            val typeface = ResourcesCompat.getFont(requireContext(), R.font.pretendard_bold)
+            spannable.setSpan(
+                CustomTypefaceSpan(typeface),
+                0,
+                nickname.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            binding.tvOnboardingCompleteDesc.text = spannable
+
             btnGoToMain.setOnClickListener {
                 viewModel.submitProfile()
             }

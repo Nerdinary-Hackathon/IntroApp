@@ -7,6 +7,41 @@
     android:background="@color/white"
     tools:context=".presentation.ui.onboarding.OnboardingFragment5">
 
+    <ImageView
+        android:id="@+id/ivOnboardingProfile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="232dp"
+        android:src="@drawable/android_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvOnboardingComplete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/pretendard_bold"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        android:text="@string/profile_setting_complete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivOnboardingProfile"/>
+
+    <TextView
+        android:id="@+id/tvOnboardingCompleteDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:fontFamily="@font/pretendard_medium"
+        android:text="@string/profile_setting_complete_desc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOnboardingComplete"/>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGoToMain"
         android:layout_width="match_parent"
