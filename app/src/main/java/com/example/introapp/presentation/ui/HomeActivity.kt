@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,6 +24,9 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
+    private var backPressedTime: Long = 0
+    private val backPressInterval: Long = 2000 // 2초
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,6 +35,8 @@ class HomeActivity : AppCompatActivity() {
         }
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupBackPressHandler()
 
         // 첫 화면을 명함으로 설정
         supportFragmentManager.beginTransaction()
@@ -60,6 +66,29 @@ class HomeActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    /**
+     * 뒤로가기 버튼을 두 번 눌러야 종료되도록 설정
+     */
+    private fun setupBackPressHandler() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 현재 시간과 이전에 뒤로가기를 누른 시간의 차이 계산
+                if (System.currentTimeMillis() - backPressedTime <= backPressInterval) {
+                    // 2초 이내에 다시 뒤로가기를 누르면 앱 종료
+                    finish()
+                } else {
+                    // 첫 번째 뒤로가기: 토스트 메시지 표시
+                    backPressedTime = System.currentTimeMillis()
+                    Toast.makeText(
+                        this@HomeActivity,
+                        "종료하려면 한 번 더 뒤로가기를 누르세요",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        })
     }
 
     /**
