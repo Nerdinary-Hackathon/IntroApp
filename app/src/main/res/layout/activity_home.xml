@@ -58,6 +58,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:background="@drawable/bg_tab_selected"
+            android:fontFamily="@font/pretendard_medium"
             android:gravity="center"
             android:text="나의 명함"
             android:textColor="@color/text_color_tab_selector" />
@@ -67,6 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
+            android:fontFamily="@font/pretendard_medium"
             android:gravity="center"
             android:text="나의 코드"
             android:textColor="@color/text_color_tab_selector" />
