@@ -39,12 +39,22 @@ class OnboardingFragment3 : Fragment() {
 
     private fun setupViews() {
         binding.run {
-            layoutTop.bind(3, getString(R.string.onboarding3_title), getString(R.string.onboarding3_desc))
+            layoutTop.bind(
+                3,
+                getString(R.string.onboarding3_title),
+                getString(R.string.onboarding3_desc)
+            )
 
             // 프론트엔드
             categoryFrontend.setCategory(
                 getString(R.string.frontend),
-                listOf(getString(R.string.react), getString(R.string.vue), getString(R.string.nextjs), getString(R.string.typescript), getString(R.string.flutter))
+                listOf(
+                    getString(R.string.react),
+                    getString(R.string.vue),
+                    getString(R.string.nextjs),
+                    getString(R.string.typescript),
+                    getString(R.string.flutter)
+                )
             )
             categoryFrontend.setOnSelectionChangedListener { selected ->
                 updateTechStacks(getString(R.string.frontend), selected)
@@ -53,7 +63,13 @@ class OnboardingFragment3 : Fragment() {
             // 백엔드
             categoryBackend.setCategory(
                 getString(R.string.backend),
-                listOf(getString(R.string.java), getString(R.string.spring), getString(R.string.python), getString(R.string.django), getString(R.string.nodejs))
+                listOf(
+                    getString(R.string.java),
+                    getString(R.string.spring),
+                    getString(R.string.python),
+                    getString(R.string.django),
+                    getString(R.string.nodejs)
+                )
             )
             categoryBackend.setOnSelectionChangedListener { selected ->
                 updateTechStacks(getString(R.string.backend), selected)
@@ -62,7 +78,13 @@ class OnboardingFragment3 : Fragment() {
             // 디자인
             categoryDesign.setCategory(
                 getString(R.string.design),
-                listOf(getString(R.string.figma), getString(R.string.photoshop), getString(R.string.sketch), getString(R.string.text_3d), getString(R.string.illustrator))
+                listOf(
+                    getString(R.string.figma),
+                    getString(R.string.photoshop),
+                    getString(R.string.sketch),
+                    getString(R.string.text_3d),
+                    getString(R.string.illustrator)
+                )
             )
             categoryDesign.setOnSelectionChangedListener { selected ->
                 updateTechStacks(getString(R.string.design), selected)
@@ -71,7 +93,12 @@ class OnboardingFragment3 : Fragment() {
             // 인프라/기타
             categoryInfra.setCategory(
                 getString(R.string.infra),
-                listOf(getString(R.string.aws), getString(R.string.docker), getString(R.string.kubernetes), getString(R.string.git))
+                listOf(
+                    getString(R.string.aws),
+                    getString(R.string.docker),
+                    getString(R.string.kubernetes),
+                    getString(R.string.git)
+                )
             )
             categoryInfra.setOnSelectionChangedListener { selected ->
                 updateTechStacks(getString(R.string.infra), selected)
@@ -105,20 +132,44 @@ class OnboardingFragment3 : Fragment() {
 
     private fun getTechStacksByCategory(category: String): List<String> {
         return when (category) {
-            "프론트엔드" -> listOf("React", "Vue", "Next.js", "TypeScript", "Flutter")
-            "백엔드" -> listOf("Java", "Spring", "Python", "Django", "Node.js")
-            "디자인" -> listOf("Figma", "Photoshop", "Sketch", "3D", "Illustrator")
-            "인프라/기타" -> listOf("AWS", "Docker", "Kubernetes", "Git")
+            getString(R.string.frontend) -> listOf(
+                getString(R.string.react),
+                getString(R.string.vue),
+                getString(R.string.nextjs),
+                getString(R.string.typescript),
+                getString(R.string.flutter)
+            )
+
+            getString(R.string.backend) -> listOf(
+                getString(R.string.java),
+                getString(R.string.spring),
+                getString(R.string.python),
+                getString(R.string.django),
+                getString(R.string.nodejs)
+            )
+            getString(R.string.design) -> listOf(
+                getString(R.string.figma),
+                getString(R.string.photoshop),
+                getString(R.string.sketch),
+                getString(R.string.text_3d),
+                getString(R.string.illustrator)
+            )
+            getString(R.string.infra) -> listOf(
+                getString(R.string.aws),
+                getString(R.string.docker),
+                getString(R.string.kubernetes),
+                getString(R.string.git)
+            )
             else -> emptyList()
         }
     }
 
     private fun restoreSelections(techStacks: Set<String>) {
         binding.run {
-            val frontend = techStacks.filter { getTechStacksByCategory("프론트엔드").contains(it) }.toSet()
-            val backend = techStacks.filter { getTechStacksByCategory("백엔드").contains(it) }.toSet()
-            val design = techStacks.filter { getTechStacksByCategory("디자인").contains(it) }.toSet()
-            val infra = techStacks.filter { getTechStacksByCategory("인프라/기타").contains(it) }.toSet()
+            val frontend = techStacks.filter { getTechStacksByCategory(getString(R.string.frontend)).contains(it) }.toSet()
+            val backend = techStacks.filter { getTechStacksByCategory(getString(R.string.backend)).contains(it) }.toSet()
+            val design = techStacks.filter { getTechStacksByCategory(getString(R.string.design)).contains(it) }.toSet()
+            val infra = techStacks.filter { getTechStacksByCategory(getString(R.string.infra)).contains(it) }.toSet()
 
             if (frontend.isNotEmpty()) categoryFrontend.setSelectedItems(frontend)
             if (backend.isNotEmpty()) categoryBackend.setSelectedItems(backend)
