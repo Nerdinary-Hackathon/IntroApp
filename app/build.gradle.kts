@@ -70,6 +70,7 @@ dependencies {
 
     // coil
     implementation(libs.coil)
+    implementation(libs.coil.svg)
 
     // androidx-lifecycle-viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
