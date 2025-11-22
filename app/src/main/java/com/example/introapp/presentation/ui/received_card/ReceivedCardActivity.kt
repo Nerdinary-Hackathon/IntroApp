@@ -275,7 +275,7 @@ class ReceivedCardActivity : AppCompatActivity() {
                 }
             }
             is UiState.Success -> {
-                Timber.d("## [명함 목록 조회] Success - ${state.data.cards.size}개")
+                Timber.d("## [명함 목록 조회] Success - 새로 받은 데이터: ${state.data.cards.size}개")
 
                 // 로딩 오버레이 숨김
                 hideLoading()
@@ -284,8 +284,12 @@ class ReceivedCardActivity : AppCompatActivity() {
                 nextCursor = state.data.nextCursor
                 hasNext = state.data.hasNext
 
-                // 기존 리스트에 새로운 데이터 추가 후 리사이클러뷰에 반영
-                allCardList.addAll(state.data.cards)
+                // 기존 리스트에 새로운 데이터 추가 (중복 방지)
+                val newCards = state.data.cards.filter { newCard ->
+                    allCardList.none { it.userId == newCard.userId }
+                }
+                allCardList.addAll(newCards)
+
                 receivedCardAdapter.submitList(allCardList.toList())
                 updateEmptyState(allCardList.isEmpty())
 
@@ -327,5 +331,18 @@ class ReceivedCardActivity : AppCompatActivity() {
      */
     private fun hideLoading() {
         binding.loadingOverlay.visibility = android.view.View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 화면으로 돌아올 때 상태 초기화 후 데이터 다시 로드
+        Timber.d("## [onResume] 상태 초기화 및 재조회")
+        resetPagingState()
+        userViewModel.resetCardListState()
+
+        // userId가 있으면 다시 로드
+        currentUserId?.let {
+            loadCardList()
+        }
     }
 }
