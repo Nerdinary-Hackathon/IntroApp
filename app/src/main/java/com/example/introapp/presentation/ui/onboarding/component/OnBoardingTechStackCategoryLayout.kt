@@ -58,10 +58,13 @@ class TechStackCategoryLayout @JvmOverloads constructor(
         val isSelected = !view.isSelected
         view.isSelected = isSelected
 
+        // 대문자로 변환하여 저장 - api 요청 시 대문자로 넘김
+        val upperCaseValue = value.uppercase()
+
         if (isSelected) {
-            selectedItems.add(value)
+            selectedItems.add(upperCaseValue)
         } else {
-            selectedItems.remove(value)
+            selectedItems.remove(upperCaseValue)
         }
 
         // 리스너 호출
@@ -79,14 +82,16 @@ class TechStackCategoryLayout @JvmOverloads constructor(
     // 프로그래밍 방식으로 선택 설정
     fun setSelectedItems(items: Set<String>) {
         selectedItems.clear()
-        selectedItems.addAll(items)
+        // 대문자로 변환하여 저장
+        selectedItems.addAll(items.map { it.uppercase() })
 
         // UI 업데이트
         for (i in 0 until binding.chipGroup.childCount) {
             val chip = binding.chipGroup.getChildAt(i)
             val textView = chip.findViewById<TextView>(R.id.tvChip)
             val text = textView.text.toString()
-            chip.isSelected = selectedItems.contains(text)
+            // 대문자로 비교
+            chip.isSelected = selectedItems.contains(text.uppercase())
         }
     }
 
