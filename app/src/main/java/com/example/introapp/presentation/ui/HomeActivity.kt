@@ -85,13 +85,11 @@ class HomeActivity : AppCompatActivity() {
 
         // "내 명함" 클릭
         menuMyCard.setOnClickListener {
-            Toast.makeText(this, "내 명함", Toast.LENGTH_SHORT).show()
             popupWindow.dismiss()
         }
 
         // "받은명함" 클릭
         menuReceivedCard.setOnClickListener {
-            Toast.makeText(this, "받은명함", Toast.LENGTH_SHORT).show()
             popupWindow.dismiss()
             startActivity(
                 Intent(this, ReceivedCardActivity::class.java)

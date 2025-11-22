@@ -40,7 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/normal" />
+            android:src="@drawable/normal"
+            android:visibility="invisible" />
 
     </LinearLayout>
 
