@@ -6,7 +6,7 @@
     android:background="@drawable/bg_onboarding_chip_selector"
     android:clickable="true"
     android:focusable="true"
-    android:fontFamily="@font/pretendard_semibold"
+    android:fontFamily="@font/pretendard_medium"
     android:paddingHorizontal="12dp"
     android:paddingVertical="8dp"
     android:text="Android"

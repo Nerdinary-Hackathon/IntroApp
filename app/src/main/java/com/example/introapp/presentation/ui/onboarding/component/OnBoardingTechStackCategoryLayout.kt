@@ -42,7 +42,7 @@ class TechStackCategoryLayout @JvmOverloads constructor(
         val textView = chipView.findViewById<TextView>(R.id.tvChip)
         textView.text = text
 
-        // 초기 상태: 선택 안됨
+        // 초기 상태 : 선택 안됨
         chipView.isSelected = false
 
         // 클릭 리스너
@@ -74,9 +74,7 @@ class TechStackCategoryLayout @JvmOverloads constructor(
     }
 
     // 현재 선택된 항목들 가져오기
-    fun getSelectedItems(): Set<String> {
-        return selectedItems.toSet()
-    }
+    fun getSelectedItems(): Set<String> = selectedItems.toSet()
 
     // 프로그래밍 방식으로 선택 설정
     fun setSelectedItems(items: Set<String>) {
