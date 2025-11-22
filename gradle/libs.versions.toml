@@ -21,6 +21,7 @@ kotlinxSerialization = "1.0.0"
 timber = "5.0.1"
 jetbrainsKotlinJvm = "2.0.21"
 navVersion = "2.7.6"
+datastore = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +52,8 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 converter-kotlinx-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "kotlinxSerialization" }
 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

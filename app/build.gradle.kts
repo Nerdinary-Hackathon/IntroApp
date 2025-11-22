@@ -90,6 +90,8 @@ dependencies {
     //카드뷰
     implementation("androidx.cardview:cardview:1.0.0")
 
+    // datastore
+    implementation(libs.androidx.datastore.preferences)
 
 }
 
