@@ -65,14 +65,13 @@ class OnboardingFragment4 : Fragment() {
             }
 
             btnGoToCompleteScreen.setOnClickListener {
-                findNavController().navigate(R.id.action_page4_to_page5)
-//                val selectedCareer = careerSelector.getSelectedItem()
-//                if (selectedCareer != null) {
-//                     findNavController().navigate(R.id.action_page4_to_page5)
-//                } else {
-//                    // 선택하지 않았을 때 에러 표시
-//                    Toast.makeText(requireActivity(), "경력을 선택해주세요", Toast.LENGTH_SHORT).show()
-//                }
+                val selectedCareer = careerSelector.getSelectedItem()
+                if (selectedCareer != null) {
+                     findNavController().navigate(R.id.action_page4_to_page5)
+                } else {
+                    // 선택하지 않았을 때 에러 표시
+                    Toast.makeText(requireActivity(), "경력을 선택해주세요", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

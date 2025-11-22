@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.introapp.R
@@ -66,13 +67,12 @@ class OnboardingFragment2 : Fragment() {
 
             // 다음 버튼
             btnGoTo3.setOnClickListener {
-                findNavController().navigate(R.id.action_page2_to_page3)
-//                val selectedJob = jobSelector.getSelectedItem()
-//                if (selectedJob != null) {
-//                    findNavController().navigate(R.id.action_page2_to_page3)
-//                } else {
-//                    // TODO: 선택하지 않았을 때 에러 표시
-//                }
+                val selectedJob = jobSelector.getSelectedItem()
+                if (selectedJob != null) {
+                    findNavController().navigate(R.id.action_page2_to_page3)
+                } else {
+                    Toast.makeText(requireActivity(), "직무를 선택해 주세요", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

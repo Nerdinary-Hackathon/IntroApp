@@ -118,8 +118,12 @@ class OnboardingFragment3 : Fragment() {
 
             // 다음 버튼
             btnGoTo4.setOnClickListener {
-                viewModel.updateTechStacks(allSelectedTechStacks)
-                findNavController().navigate(R.id.action_page3_to_page4)
+                if (allSelectedTechStacks.isEmpty()) {
+                    Toast.makeText(requireContext(), "기술 스택을 선택해 주세요", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.updateTechStacks(allSelectedTechStacks)
+                    findNavController().navigate(R.id.action_page3_to_page4)
+                }
             }
         }
     }
