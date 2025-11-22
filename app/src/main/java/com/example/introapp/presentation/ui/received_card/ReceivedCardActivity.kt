@@ -12,6 +12,8 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.introapp.R
 import com.example.introapp.databinding.ActivityReceivedCardBinding
 import com.example.introapp.domain.entity.CardList
@@ -36,13 +38,18 @@ class ReceivedCardActivity : AppCompatActivity() {
     private val userViewModel: UserViewModel by viewModels()
 
     // 전체 카드 리스트 저장 (로컬 필터링용)
-    private var allCardList: List<CardSummary> = emptyList()
+    private var allCardList: MutableList<CardSummary> = mutableListOf()
 
     // 현재 사용자 ID
     private var currentUserId: String? = null
 
     // 현재 선택된 카테고리 (기본값: "전체")
     private var selectedCategory: String = "전체"
+
+    // 페이징 관련 변수
+    private var nextCursor: String? = null
+    private var hasNext: Boolean = false
+    private var isLoadingMore: Boolean = false
 
     // 카테고리 한글-JobGroup enum 매핑
     private val categoryMap = mapOf(
@@ -73,9 +80,6 @@ class ReceivedCardActivity : AppCompatActivity() {
         setupViews()
     }
 
-    /**
-     * ViewModel 상태 관찰 설정
-     */
     private fun setupObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -109,9 +113,6 @@ class ReceivedCardActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 뷰 설정
-     */
     private fun setupViews() {
         binding.run {
             ivArrowLeft.setOnClickListener { finish() }
@@ -130,26 +131,62 @@ class ReceivedCardActivity : AppCompatActivity() {
                     if (newCategory != selectedCategory) {
                         selectedCategory = newCategory
                         Timber.d("## [카테고리] 선택됨 - $selectedCategory")
-                        filterCardsByCategory(selectedCategory)
+
+                        // 카테고리 변경 시 목록 초기화 후 새로 로드
+                        resetPagingState()
+                        loadCardList()
                     }
                 }
             }
 
-            // RecyclerView 설정
             rvReceivedCard.adapter = receivedCardAdapter
             receivedCardAdapter.setOnItemClickListener { cardSummary ->
                 Timber.d("## [리사이클러뷰] 아이템 클릭 - jobGroup: ${cardSummary.jobGroup}, nickname: ${cardSummary.nickname}")
-                // TODO: 명함 상세 화면으로 이동
                 startActivity(
                     Intent(this@ReceivedCardActivity, CardDetailActivity::class.java)
                         .putExtra("userId", cardSummary.userId)
                 )
             }
+
+            // 페이징용 스크롤 리스너
+            rvReceivedCard.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val layoutManager = recyclerView.layoutManager as? LinearLayoutManager
+                    if (layoutManager != null && dy > 0) { // 아래로 스크롤 중
+                        val visibleItemCount = layoutManager.childCount
+                        val totalItemCount = layoutManager.itemCount
+                        val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                        // 마지막 아이템이 보이고, 다음 페이지가 있고, 현재 로딩 중이 아닐 때
+                        if (!isLoadingMore && hasNext &&
+                            (visibleItemCount + firstVisibleItemPosition) >= totalItemCount &&
+                            firstVisibleItemPosition >= 0
+                        ) {
+                            Timber.d("## [페이징] 다음 페이지 로드 시작")
+                            loadMoreCards()
+                        }
+                    }
+                }
+            })
         }
     }
 
     /**
+     * 페이징 상태 초기화
+     */
+    private fun resetPagingState() {
+        allCardList.clear()
+        nextCursor = null
+        hasNext = false
+        isLoadingMore = false
+        receivedCardAdapter.submitList(emptyList())
+    }
+
+    /**
      * 카드 목록을 로드하는 함수
+     *
      * 현재 선택된 필터에 따라 API 호출
      */
     private fun loadCardList() {
@@ -164,21 +201,52 @@ class ReceivedCardActivity : AppCompatActivity() {
         val selectedJobGroup = categoryMap[selectedCategory]
 
         if (selectedJobGroup != null) {
-            // 특정 직군 선택 시: 해당 직군만 조회
-            Timber.d("## [loadCardList] 특정 직군 조회 - $selectedJobGroup")
+            // 특정 직군 선택 시 해당 직군만 조회
+            Timber.d("## [loadCardList] 특정 직군 조회 - $selectedJobGroup, cursor: $nextCursor")
             userViewModel.getCardList(
                 userId = userId,
                 jobGroup = selectedJobGroup,
-                cursor = null
+                cursor = nextCursor
             )
         } else {
-            // "전체" 선택 시: 모든 직군의 카드를 조회
+            // "전체" 선택 시 모든 직군의 카드를 조회 (페이징 불가)
             Timber.d("## [loadCardList] 전체 직군 조회")
             userViewModel.getAllCardList(
                 userId = userId,
                 cursor = null
             )
         }
+    }
+
+    /**
+     * 다음 페이지 로드
+     */
+    private fun loadMoreCards() {
+        if (isLoadingMore || !hasNext || nextCursor == null) {
+            return
+        }
+
+        val userId = currentUserId
+        if (userId == null) {
+            Timber.w("## [loadMoreCards] userId가 null입니다")
+            return
+        }
+
+        val selectedJobGroup = categoryMap[selectedCategory]
+        if (selectedJobGroup == null) {
+            // "전체" 카테고리는 페이징 불가
+            Timber.d("## [loadMoreCards] '전체' 카테고리는 페이징을 지원하지 않습니다")
+            return
+        }
+
+        isLoadingMore = true
+        Timber.d("## [loadMoreCards] 다음 페이지 로드 - cursor: $nextCursor")
+
+        userViewModel.getCardList(
+            userId = userId,
+            jobGroup = selectedJobGroup,
+            cursor = nextCursor
+        )
     }
 
     /**
@@ -190,17 +258,21 @@ class ReceivedCardActivity : AppCompatActivity() {
                 Timber.e("## [명함 목록 조회] Error - ${state.message}")
                 // 로딩 오버레이 숨김
                 hideLoading()
+                isLoadingMore = false
                 Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()
             }
             UiState.Idle -> {
                 Timber.d("## [명함 목록 조회] Idle")
                 // 로딩 오버레이 숨김
                 hideLoading()
+                isLoadingMore = false
             }
             UiState.Loading -> {
                 Timber.d("## [명함 목록 조회] Loading")
-                // 로딩 오버레이 표시
-                showLoading()
+                // 첫 로딩일 때만 전체 로딩 표시
+                if (!isLoadingMore) {
+                    showLoading()
+                }
             }
             is UiState.Success -> {
                 Timber.d("## [명함 목록 조회] Success - ${state.data.cards.size}개")
@@ -208,32 +280,20 @@ class ReceivedCardActivity : AppCompatActivity() {
                 // 로딩 오버레이 숨김
                 hideLoading()
 
-                // 전체 리스트 저장
-                allCardList = state.data.cards
+                // 페이징 정보 업데이트
+                nextCursor = state.data.nextCursor
+                hasNext = state.data.hasNext
 
-                // 현재 선택된 필터에 따라 표시
-                filterCardsByCategory(selectedCategory)
+                // 기존 리스트에 새로운 데이터 추가 후 리사이클러뷰에 반영
+                allCardList.addAll(state.data.cards)
+                receivedCardAdapter.submitList(allCardList.toList())
+                updateEmptyState(allCardList.isEmpty())
+
+                isLoadingMore = false
+
+                Timber.d("## [페이징] 현재 총 ${allCardList.size}개, hasNext: $hasNext, nextCursor: $nextCursor")
             }
         }
-    }
-
-    /**
-     * 카테고리에 따라 카드 목록을 필터링하는 함수 (로컬 필터링)
-     */
-    private fun filterCardsByCategory(category: String) {
-        val jobGroup = categoryMap[category]
-
-        val filteredList = if (jobGroup == null) {
-            // "전체" 선택 시 모든 카드 표시
-            allCardList
-        } else {
-            // 선택된 jobGroup에 맞는 카드만 필터링
-            allCardList.filter { it.jobGroup == jobGroup }
-        }
-
-        receivedCardAdapter.submitList(filteredList)
-        updateEmptyState(filteredList.isEmpty())
-        Timber.d("## [필터링] 카테고리: $category, jobGroup: $jobGroup, 결과: ${filteredList.size}개")
     }
 
     /**
