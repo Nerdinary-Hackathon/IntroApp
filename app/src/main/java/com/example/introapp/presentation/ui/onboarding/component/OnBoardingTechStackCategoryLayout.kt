@@ -68,9 +68,6 @@ class OnBoardingTechStackCategoryLayout @JvmOverloads constructor(
 
     private fun toggleChip(view: View, value: String) {
         if (isSingleSelectionMode) {
-            // 단일 선택 모드: 이전 선택 해제 후 새로운 항목 선택
-            val previouslySelected = selectedItems.firstOrNull()
-
             // 같은 항목을 다시 클릭한 경우 (선택 해제 방지)
             if (selectedItems.contains(value)) {
                 return
