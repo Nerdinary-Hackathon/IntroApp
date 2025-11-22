@@ -64,6 +64,8 @@ class CardDetailActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.ivArrowLeft.setOnClickListener { finish() }
     }
 
     private fun updateCardUI(card: Card) {
