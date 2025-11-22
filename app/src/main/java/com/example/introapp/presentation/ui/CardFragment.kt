@@ -85,6 +85,9 @@ class CardFragment : Fragment() {
             // JobGroup에 따라 색상 변경
             updateCardColors(card.jobGroup)
 
+            // JobGroup에 따라 프로필 이미지 변경
+            updateProfileImage(card.jobGroup)
+
             llTech.removeAllViews()
             card.techStacks.forEachIndexed { index, techStack ->
                 val textView = createTechStackTextView(techStack.toString(), index, card.jobGroup)
@@ -123,6 +126,24 @@ class CardFragment : Fragment() {
             divider1.dividerColor = strokeColor
             divider2.dividerColor = strokeColor
         }
+    }
+
+    /**
+     * JobGroup에 따라 프로필 이미지를 변경
+     *
+     * @param jobGroup 직무 그룹
+     */
+    private fun updateProfileImage(jobGroup: JobGroup) {
+        val profileImageRes = when (jobGroup) {
+            JobGroup.PM -> R.drawable.pm_onboarding_profile
+            JobGroup.DESIGNER -> R.drawable.design_onboarding_profile
+            JobGroup.WEB -> R.drawable.web_onboarding_profile
+            JobGroup.BACKEND -> R.drawable.backend_onboarding_profile
+            JobGroup.ANDROID -> R.drawable.android_onboarding_profile
+            JobGroup.IOS -> R.drawable.ios_onboarding_profile
+        }
+
+        binding.ivProfile.setImageResource(profileImageRes)
     }
 
     /**
