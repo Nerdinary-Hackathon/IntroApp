@@ -1,6 +1,7 @@
 package com.example.introapp.data.util
 
 import com.example.introapp.data.model.ApiResponse
+import com.example.introapp.data.model.ApiResponseEmpty
 
 /**
  * ApiResponse를 Result로 변환하는 확장 함수
@@ -48,6 +49,27 @@ suspend inline fun <T, R> safeApiCall(
 ): Result<R> {
     return try {
         apiCall().toResult(transform)
+    } catch (e: Exception) {
+        Result.failure(e)
+    }
+}
+
+fun ApiResponseEmpty.toResult(): Result<Unit> {
+    return if (this.isSuccess) {
+        Result.success(Unit)
+    } else {
+        Result.failure(Exception(this.message))
+    }
+}
+
+/**
+ * 빈 응답 API 호출을 안전하게 실행하는 헬퍼 함수
+ */
+suspend fun safeApiCallEmpty(
+    apiCall: suspend () -> ApiResponseEmpty
+): Result<Unit> {
+    return try {
+        apiCall().toResult()
     } catch (e: Exception) {
         Result.failure(e)
     }

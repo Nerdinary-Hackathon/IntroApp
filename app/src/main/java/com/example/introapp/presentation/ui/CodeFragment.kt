@@ -65,7 +65,7 @@ class CodeFragment : Fragment() {
                         when (state) {
                             is UiState.Error -> {
                                 Timber.e("## [명함 교환] 에러 : ${state.message}")
-                                Toast.makeText(requireContext(), "명함 교환 실패: ${state.message}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), "이미 추가한 명함입니다", Toast.LENGTH_SHORT).show()
                             }
                             UiState.Idle -> {
                                 // 초기 상태

@@ -76,7 +76,6 @@ class ReceivedCardAdapter : ListAdapter<CardItem, ReceivedCardAdapter.ReceivedCa
         }
     }
 
-    // DiffUtil.ItemCallback 구현
     private class CardItemDiffCallback : DiffUtil.ItemCallback<CardItem>() {
         override fun areItemsTheSame(oldItem: CardItem, newItem: CardItem): Boolean {
             return oldItem.nickName == newItem.nickName && oldItem.jobGroup == newItem.jobGroup

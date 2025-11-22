@@ -2,6 +2,7 @@ package com.example.introapp.data.repository
 
 import com.example.introapp.data.api.UserService
 import com.example.introapp.data.util.safeApiCall
+import com.example.introapp.data.util.safeApiCallEmpty
 import com.example.introapp.domain.entity.Card
 import com.example.introapp.domain.entity.CardList
 import com.example.introapp.domain.entity.JobGroup
@@ -27,9 +28,9 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun exchangeCard(userId: String, cardCode: String): Result<Unit> {
-        return safeApiCall {
+        return safeApiCallEmpty {
             userService.exchangeCard(userId, cardCode)
-        }.map { Unit } // EmptyResponse를 Unit으로 변환
+        }
     }
 
     override suspend fun getCard(userId: String): Result<Card> {
