@@ -25,7 +25,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
 
     private var backPressedTime: Long = 0
-    private val backPressInterval: Long = 2000 // 2초
+    private val backPressInterval: Long = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
