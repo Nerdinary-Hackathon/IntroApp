@@ -2,4 +2,17 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="pm_deep">#FF8585</color>
+    <color name="pm_soft">#FFD1D1</color>
+    <color name="design_deep">#EB85FF</color>
+    <color name="design_soft">#F7D1FF</color>
+    <color name="web_deep">#AD85FF</color>
+    <color name="web_soft">#E0D1FF</color>
+    <color name="backend_deep">#85C6FF</color>
+    <color name="backend_soft">#D1EAFF</color>
+    <color name="android_deep">#FBFF85</color>
+    <color name="android_soft">#FDFFD1</color>
+    <color name="ios_deep">#B1FF85</color>
+    <color name="ios_soft">#E2FFD1</color>
 </resources>
