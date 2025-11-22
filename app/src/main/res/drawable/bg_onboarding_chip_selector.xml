@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- 선택된 상태: color_050066 배경 + 흰색 텍스트 -->
+    <!-- 선택된 상태: color_0f0f10 배경 + 흰색 텍스트 -->
     <item android:state_selected="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/color_050066" />
+            <solid android:color="@color/color_0f0f10" />
             <corners android:radius="32dp" />
             <padding
                 android:left="16dp"

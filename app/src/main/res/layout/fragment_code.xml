@@ -33,8 +33,12 @@
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/pretendard_regular"
                 android:hint="친구 코드를 입력해주세요"
+                android:inputType="number"
+                android:maxLines="1"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
                 android:textColorHint="@color/text_moregray"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -62,17 +66,18 @@
 
     <!-- 나의 명함 코드 -->
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcvCodeCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginTop="45dp"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="45dp"
-        app:cardBackgroundColor="@color/backend_soft"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
         app:layout_constraintTop_toBottomOf="@id/cdvInput"
-        app:strokeColor="@color/backend_deep"
+        app:strokeColor="@android:color/transparent"
         app:strokeWidth="3.5dp">
 
         <!-- 내부 레이아웃 -->
@@ -107,7 +112,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCodeTitle"
-                app:strokeColor="@color/backend_deep"
+                app:strokeColor="@android:color/transparent"
                 app:strokeWidth="3.5dp">
 
                 <TextView
@@ -117,7 +122,7 @@
                     android:fontFamily="@font/pretendard_extrabold"
                     android:gravity="center"
                     android:text="12345"
-                    android:textColor="@color/text_sky"
+                    android:textColor="@android:color/transparent"
                     android:textSize="64dp" />
 
             </com.google.android.material.card.MaterialCardView>
@@ -131,7 +136,7 @@
                 android:fontFamily="@font/pretendard_semibold"
                 android:gravity="center"
                 android:text="이 친구 코드를 입력하면\n내 명함을 저장할 수 있어요"
-                android:textColor="@color/backend_deep"
+                android:textColor="@android:color/transparent"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -141,5 +146,27 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- 로딩 오버레이 -->
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/white" />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

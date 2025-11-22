@@ -46,20 +46,21 @@
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mcvCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="36dp"
         android:layout_marginTop="45dp"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="45dp"
-        app:cardBackgroundColor="@color/backend_soft"
+        app:cardBackgroundColor="@android:color/transparent"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutReceivedCardTop"
-        app:strokeColor="@color/backend_deep"
+        app:strokeColor="@android:color/transparent"
         app:strokeWidth="3.5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +74,6 @@
                 android:layout_marginTop="40dp"
                 android:background="@color/black"
                 android:scaleType="centerCrop"
-                android:src="@drawable/backend_profile"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="디노"
+                android:text=""
                 android:textColor="@color/text_nam"
                 android:textSize="24dp"
                 app:layout_constraintEnd_toEndOf="@id/ivProfile"
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/pretendard_semibold"
-                android:text="백엔드"
+                android:text=""
                 android:textColor="@color/text_job"
                 android:textSize="20dp"
                 app:layout_constraintEnd_toEndOf="@id/ivProfile"
@@ -134,14 +134,14 @@
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="@id/tvTech"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTech"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tvTech" />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/divider1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    app:dividerColor="@color/backend_deep"
+                    app:dividerColor="@android:color/transparent"
                     app:dividerThickness="2dp"
                     app:layout_constraintTop_toBottomOf="@+id/llTech" />
 
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:text="주니어 (1-3년)"
+                    android:text=""
                     android:textColor="@color/text_gray"
                     android:textSize="16dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -174,7 +174,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    app:dividerColor="@color/backend_deep"
+                    app:dividerColor="@android:color/transparent"
                     app:dividerThickness="2dp"
                     app:layout_constraintTop_toBottomOf="@+id/tvCareerPeriod" />
 
@@ -193,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/pretendard_regular"
-                    android:text="000-0000-0000"
+                    android:text=""
                     android:textColor="@color/text_gray"
                     android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="@id/ivPhone"
@@ -214,7 +214,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/pretendard_regular"
-                    android:text="0001234@cmc.kr"
+                    android:text=""
                     android:textColor="@color/text_gray"
                     android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="@id/ivEmail"
@@ -235,7 +235,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/pretendard_regular"
-                    android:text="dfd354qoppip.com"
+                    android:text=""
                     android:textColor="@color/text_gray"
                     android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="@id/ivLink"
@@ -246,5 +246,27 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- 로딩 오버레이 -->
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/white" />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

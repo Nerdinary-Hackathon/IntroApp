@@ -58,7 +58,7 @@ enum class JobGroup(val value: String, val displayName: String) {
  */
 enum class Level(val value: String, val displayName: String) {
     JOB_SEEKING("JOB_SEEKING", "취준생"),
-    NEWCOMER("NEWCOMER", "신입"),
+    ENTRY("ENTRY", "신입"),
     JUNIOR("JUNIOR", "주니어"),
     SENIOR("SENIOR", "시니어");
 

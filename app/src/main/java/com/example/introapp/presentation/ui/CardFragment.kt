@@ -14,6 +14,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.introapp.R
 import com.example.introapp.databinding.FragmentCardBinding
 import com.example.introapp.domain.entity.Card
+import com.example.introapp.domain.entity.JobGroup
+import com.example.introapp.domain.entity.Level
 import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
 import com.example.introapp.presentation.viewmodel.UiState
 import com.example.introapp.presentation.viewmodel.UserViewModel
@@ -56,17 +58,25 @@ class CardFragment : Fragment() {
                         when (cardState) {
                             is UiState.Error -> {
                                 Timber.e("## [명함 조회] Error - ${cardState.message}")
+                                // 로딩 오버레이 숨김
+                                hideLoading()
                                 Toast.makeText(requireContext(), cardState.message, Toast.LENGTH_SHORT).show()
                             }
                             UiState.Idle -> {
                                 Timber.d("## [명함 조회] Idle")
+                                // 로딩 오버레이 숨김
+                                hideLoading()
                             }
                             UiState.Loading -> {
                                 Timber.d("## [명함 조회] Loading")
+                                // 로딩 오버레이 표시
+                                showLoading()
                             }
                             is UiState.Success -> {
                                 val card = cardState.data
                                 Timber.d("## [명함 조회] 성공 - card : $card")
+                                // 로딩 오버레이 숨김
+                                hideLoading()
                                 updateCardUI(card)
                             }
                         }
@@ -79,15 +89,88 @@ class CardFragment : Fragment() {
     private fun updateCardUI(card: Card) {
         binding.apply {
             tvName.text = card.nickname
-            tvJob.text = card.jobGroup.toString()
+            tvJob.text = card.jobGroup.displayName
+
+            // JobGroup에 따라 색상 변경
+            updateCardColors(card.jobGroup)
+
+            // JobGroup에 따라 프로필 이미지 변경
+            updateProfileImage(card.jobGroup)
+
             llTech.removeAllViews()
             card.techStacks.forEachIndexed { index, techStack ->
-                val textView = createTechStackTextView(techStack.toString(), index)
+                val textView = createTechStackTextView(techStack.toString(), index, card.jobGroup)
                 llTech.addView(textView)
             }
+
+            // Level을 한글 표시 형식으로 변환
+            tvCareerPeriod.text = getLevelDisplayText(card.level)
+
             tvPhone.text = card.phoneNumber
             tvEmail.text = card.email
             tvLink.text = card.link
+        }
+    }
+
+    /**
+     * JobGroup에 따라 카드의 배경색과 테두리 색을 변경
+     *
+     * @param jobGroup 직무 그룹
+     */
+    private fun updateCardColors(jobGroup: JobGroup) {
+        val (strokeColorRes, backgroundColorRes) = when (jobGroup) {
+            JobGroup.PM -> R.color.pm_deep to R.color.pm_soft
+            JobGroup.DESIGNER -> R.color.design_deep to R.color.design_soft
+            JobGroup.WEB -> R.color.web_deep to R.color.web_soft
+            JobGroup.BACKEND -> R.color.backend_deep to R.color.backend_soft
+            JobGroup.ANDROID -> R.color.android_deep to R.color.android_soft
+            JobGroup.IOS -> R.color.ios_deep to R.color.ios_soft
+        }
+
+        val strokeColor = resources.getColor(strokeColorRes, null)
+        val backgroundColor = resources.getColor(backgroundColorRes, null)
+
+        binding.apply {
+            // 카드 테두리 및 배경색 변경
+            mcvCard.strokeColor = strokeColor
+            mcvCard.setCardBackgroundColor(backgroundColor)
+
+            // 구분선 색상 변경
+            divider1.dividerColor = strokeColor
+            divider2.dividerColor = strokeColor
+        }
+    }
+
+    /**
+     * JobGroup에 따라 프로필 이미지를 변경
+     *
+     * @param jobGroup 직무 그룹
+     */
+    private fun updateProfileImage(jobGroup: JobGroup) {
+        val profileImageRes = when (jobGroup) {
+            JobGroup.PM -> R.drawable.pm_onboarding_profile
+            JobGroup.DESIGNER -> R.drawable.design_onboarding_profile
+            JobGroup.WEB -> R.drawable.web_onboarding_profile
+            JobGroup.BACKEND -> R.drawable.backend_onboarding_profile
+            JobGroup.ANDROID -> R.drawable.android_onboarding_profile
+            JobGroup.IOS -> R.drawable.ios_onboarding_profile
+        }
+
+        binding.ivProfile.setImageResource(profileImageRes)
+    }
+
+    /**
+     * Level enum을 한글 표시 형식으로 변환
+     *
+     * @param level 경력 레벨
+     * @return 한글 표시 텍스트
+     */
+    private fun getLevelDisplayText(level: Level): String {
+        return when (level) {
+            Level.JOB_SEEKING -> "취업준비생 | 대학생"
+            Level.ENTRY -> "신입 (1년 미만)"
+            Level.JUNIOR -> "주니어 (1~3년)"
+            Level.SENIOR -> "시니어 (3년 이상)"
         }
     }
 
@@ -96,8 +179,19 @@ class CardFragment : Fragment() {
      *
      * @param text 표시할 기술스택 텍스트
      * @param index TextView의 인덱스 (첫 번째 항목은 marginStart 없음)
+     * @param jobGroup 직무 그룹 (배경색 결정에 사용)
      */
-    private fun createTechStackTextView(text: String, index: Int): TextView {
+    private fun createTechStackTextView(text: String, index: Int, jobGroup: JobGroup): TextView {
+        // JobGroup에 따라 배경색 결정
+        val backgroundColorRes = when (jobGroup) {
+            JobGroup.PM -> R.color.pm_deep
+            JobGroup.DESIGNER -> R.color.design_deep
+            JobGroup.WEB -> R.color.web_deep
+            JobGroup.BACKEND -> R.color.backend_deep
+            JobGroup.ANDROID -> R.color.android_deep
+            JobGroup.IOS -> R.color.ios_deep
+        }
+
         return TextView(requireContext()).apply {
             // 텍스트 설정
             this.text = text
@@ -117,6 +211,8 @@ class CardFragment : Fragment() {
 
             // 스타일 설정
             setBackgroundResource(R.drawable.rounded_bg)
+            // JobGroup에 따른 배경색 적용
+            backgroundTintList = resources.getColorStateList(backgroundColorRes, null)
             setTextColor(resources.getColor(R.color.white, null))
             textSize = 16f
             gravity = android.view.Gravity.CENTER
@@ -136,6 +232,20 @@ class CardFragment : Fragment() {
             // 폰트 설정
             typeface = resources.getFont(R.font.pretendard_medium)
         }
+    }
+
+    /**
+     * 로딩 오버레이 표시
+     */
+    private fun showLoading() {
+        (activity as? HomeActivity)?.showLoading()
+    }
+
+    /**
+     * 로딩 오버레이 숨김
+     */
+    private fun hideLoading() {
+        (activity as? HomeActivity)?.hideLoading()
     }
 
 }

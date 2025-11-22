@@ -33,6 +33,6 @@ interface UserRepository {
         userId: String,
         cursor: String?,
         size: Int = 10,
-        jobGroup: JobGroup
+        jobGroup: JobGroup?
     ): Result<CardList>
 }

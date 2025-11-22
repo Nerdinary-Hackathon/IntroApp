@@ -20,24 +20,19 @@
     <color name="color_0f0f10_90">#E60F0F10</color>
 
     <color name="pm_deep">#FF8585</color>
-    <color name="pm_soft">#FFD1D1</color>
+    <color name="pm_soft">#FFEBEB</color>
     <color name="pm_more_soft">#FFEBEB</color>
     <color name="design_deep">#EB85FF</color>
-    <color name="design_soft">#F7D1FF</color>
-    <color name="design_more_soft">#FCEBFF</color>
+    <color name="design_soft">#FCEBFF</color>
     <color name="web_deep">#AD85FF</color>
-    <color name="web_soft">#E0D1FF</color>
-    <color name="web_more_soft">#F1EBFF</color>
+    <color name="web_soft">#F1EBFF</color>
     <color name="backend_deep">#85C6FF</color>
-    <color name="backend_soft">#D1EAFF</color>
-    <color name="backend_more_soft">#EBF5FF</color>
-    <color name="android_deep">#FBFF85</color>
-    <color name="android_soft">#FDFFD1</color>
-    <color name="android_more_soft">#FEFFEB</color>
-    <color name="ios_deep">#B1FF85</color>
-    <color name="ios_soft">#E2FFD1</color>
+    <color name="backend_soft">#EBF5FF</color>
+    <color name="android_deep">#B1FF85</color>
+    <color name="android_soft">#F2FFEB</color>
+    <color name="ios_deep">#FBFF85</color>
+    <color name="ios_soft">#FEFFEB</color>
 
-    <color name="ios_more_soft">#F2FFEB</color>
     <color name="light_gray">#E7E7E7</color>
     <color name="dark_gray">#6F6F6F</color>
     <color name="text_nam">#050066</color>

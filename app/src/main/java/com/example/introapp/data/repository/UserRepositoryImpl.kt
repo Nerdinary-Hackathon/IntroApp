@@ -44,10 +44,17 @@ class UserRepositoryImpl @Inject constructor(
         userId: String,
         cursor: String?,
         size: Int,
-        jobGroup: JobGroup
+        jobGroup: JobGroup?
     ): Result<CardList> {
         return safeApiCall(
-            apiCall = { userService.getCardList(userId, cursor ?: "", size, jobGroup.value) },
+            apiCall = {
+                userService.getCardList(
+                    userId = userId,
+                    cursor = cursor ?: "",
+                    size = size,
+                    jobGroup = jobGroup?.value ?: ""
+                )
+            },
             transform = { it.toEntity() }
         )
     }
