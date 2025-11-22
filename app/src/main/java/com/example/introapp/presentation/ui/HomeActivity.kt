@@ -64,19 +64,19 @@ class HomeActivity : AppCompatActivity() {
      */
     private fun selectTab(isCardTab: Boolean) {
         if (isCardTab) {
-            // 명함 탭 선택
+            // 명함 탭 선택: 배경 적용, 글자색 진하게
             binding.tvTabCard.setBackgroundResource(R.drawable.bg_tab_selected)
-            binding.tvTabCard.isSelected = true
-            // 코드 탭 비선택
+            binding.tvTabCard.setTextColor(getColor(R.color.color_0f0f10))
+            // 코드 탭 비선택: 배경 제거, 글자색 연하게
             binding.tvTabCode.background = null
-            binding.tvTabCode.isSelected = false
+            binding.tvTabCode.setTextColor(getColor(R.color.color_0f0f10_40))
         } else {
-            // 코드 탭 선택
+            // 코드 탭 선택: 배경 적용, 글자색 진하게
             binding.tvTabCode.setBackgroundResource(R.drawable.bg_tab_selected)
-            binding.tvTabCode.isSelected = true
-            // 명함 탭 비선택
+            binding.tvTabCode.setTextColor(getColor(R.color.color_0f0f10))
+            // 명함 탭 비선택: 배경 제거, 글자색 연하게
             binding.tvTabCard.background = null
-            binding.tvTabCard.isSelected = false
+            binding.tvTabCard.setTextColor(getColor(R.color.color_0f0f10_40))
         }
     }
 

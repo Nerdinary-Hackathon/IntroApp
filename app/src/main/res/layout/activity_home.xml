@@ -61,7 +61,7 @@
             android:fontFamily="@font/pretendard_medium"
             android:gravity="center"
             android:text="나의 명함"
-            android:textColor="@color/text_color_tab_selector" />
+            android:textColor="@color/color_0f0f10" />
 
         <TextView
             android:id="@+id/tvTabCode"
@@ -71,7 +71,7 @@
             android:fontFamily="@font/pretendard_medium"
             android:gravity="center"
             android:text="나의 코드"
-            android:textColor="@color/text_color_tab_selector" />
+            android:textColor="@color/color_0f0f10_40" />
 
     </LinearLayout>
 
