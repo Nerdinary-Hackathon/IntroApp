@@ -1,6 +1,5 @@
 package com.example.introapp.presentation.ui.onboarding
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,10 +10,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.introapp.R
 import com.example.introapp.databinding.FragmentOnboarding4Binding
-import com.example.introapp.presentation.ui.HomeActivity
+import com.example.introapp.presentation.mapper.EntityMapper
 import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
 
 @AndroidEntryPoint
 class OnboardingFragment4 : Fragment() {
@@ -56,8 +54,10 @@ class OnboardingFragment4 : Fragment() {
             )
             careerSelector.setItems(careers)
 
-            careerSelector.setOnItemSelectedListener { selectedCareer ->
-                viewModel.updateCareer(selectedCareer)
+            // 선택 리스너 - displayName을 value로 변환하여 저장
+            careerSelector.setOnItemSelectedListener { selectedCareerDisplayName ->
+                val careerValue = EntityMapper.mapLevelDisplayNameToValue(selectedCareerDisplayName)
+                viewModel.updateCareer(careerValue)
             }
 
             // 이전에 선택한 값이 있다면 복원
@@ -69,9 +69,8 @@ class OnboardingFragment4 : Fragment() {
             btnGoToCompleteScreen.setOnClickListener {
                 val selectedCareer = careerSelector.getSelectedItem()
                 if (selectedCareer != null) {
-                     findNavController().navigate(R.id.action_page4_to_page5)
+                    findNavController().navigate(R.id.action_page4_to_page5)
                 } else {
-                    // 선택하지 않았을 때 에러 표시
                     Toast.makeText(requireActivity(), "경력을 선택해주세요", Toast.LENGTH_SHORT).show()
                 }
             }

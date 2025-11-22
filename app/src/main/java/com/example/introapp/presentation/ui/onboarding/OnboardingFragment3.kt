@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.introapp.R
 import com.example.introapp.databinding.FragmentOnboarding3Binding
+import com.example.introapp.presentation.mapper.EntityMapper
 import com.example.introapp.presentation.ui.onboarding.component.OnBoardingTechStackCategoryLayout
 import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -121,7 +122,9 @@ class OnboardingFragment3 : Fragment() {
                 if (allSelectedTechStacks.isEmpty()) {
                     Toast.makeText(requireContext(), "기술 스택을 선택해 주세요", Toast.LENGTH_SHORT).show()
                 } else {
-                    viewModel.updateTechStacks(allSelectedTechStacks)
+                    // displayName을 value로 변환하여 저장
+                    val techStackValues = EntityMapper.mapTechStackDisplayNamesToValues(allSelectedTechStacks)
+                    viewModel.updateTechStacks(techStackValues)
                     findNavController().navigate(R.id.action_page3_to_page4)
                 }
             }
@@ -153,7 +156,6 @@ class OnboardingFragment3 : Fragment() {
         // 최대 선택 개수 초과 체크
         if (newTotalCount > maxSelectionCount) {
             Toast.makeText(requireContext(), "분야는 3개만 선택할 수 있어요", Toast.LENGTH_SHORT).show()
-            // 이전 선택 상태로 복원 (리스너 호출 없이)
             categoryView.setSelectedItemsSilently(currentCategoryItems)
             return
         }
@@ -164,8 +166,9 @@ class OnboardingFragment3 : Fragment() {
         // 새로운 선택 항목 추가
         allSelectedTechStacks.addAll(selected)
 
-        // ViewModel 업데이트
-        viewModel.updateTechStacks(allSelectedTechStacks)
+        // displayName을 value로 변환하여 ViewModel 업데이트
+        val techStackValues = EntityMapper.mapTechStackDisplayNamesToValues(allSelectedTechStacks)
+        viewModel.updateTechStacks(techStackValues)
     }
 
     /**

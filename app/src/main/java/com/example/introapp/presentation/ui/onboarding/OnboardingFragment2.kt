@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.introapp.R
 import com.example.introapp.databinding.FragmentOnboarding2Binding
+import com.example.introapp.presentation.mapper.EntityMapper
 import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,9 +55,10 @@ class OnboardingFragment2 : Fragment() {
             )
             jobSelector.setItems(jobs)
 
-            // 선택 리스너
-            jobSelector.setOnItemSelectedListener { selectedJob ->
-                viewModel.updateJob(selectedJob)
+            // 선택 리스너 - displayName을 value로 바꿔 저장
+            jobSelector.setOnItemSelectedListener { selectedJobDisplayName ->
+                val jobValue = EntityMapper.mapJobGroupDisplayNameToValue(selectedJobDisplayName)
+                viewModel.updateJob(jobValue)
             }
 
             // 이전에 선택한 값이 있다면 복원
