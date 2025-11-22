@@ -14,6 +14,7 @@ import com.example.introapp.R
 import com.example.introapp.databinding.ActivityCardDetailBinding
 import com.example.introapp.domain.entity.Card
 import com.example.introapp.domain.entity.JobGroup
+import com.example.introapp.domain.entity.Level
 import com.example.introapp.presentation.viewmodel.UiState
 import com.example.introapp.presentation.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -95,6 +96,7 @@ class CardDetailActivity : AppCompatActivity() {
                 val textView = createTechStackTextView(techStack.toString(), index, card.jobGroup)
                 llTech.addView(textView)
             }
+            tvCareerPeriod.text = getLevelDisplayText(card.level)
             tvPhone.text = card.phoneNumber
             tvEmail.text = card.email
             tvLink.text = card.link
@@ -205,6 +207,21 @@ class CardDetailActivity : AppCompatActivity() {
 
             // 폰트 설정
             typeface = resources.getFont(R.font.pretendard_medium)
+        }
+    }
+
+    /**
+     * Level enum을 한글로 변환
+     *
+     * @param level 경력 레벨
+     * @return 한글 표시 텍스트
+     */
+    private fun getLevelDisplayText(level: Level): String {
+        return when (level) {
+            Level.JOB_SEEKING -> "취업준비생 | 대학생"
+            Level.ENTRY -> "신입 (1년 미만)"
+            Level.JUNIOR -> "주니어 (1~3년)"
+            Level.SENIOR -> "시니어 (3년 이상)"
         }
     }
 
