@@ -39,6 +39,9 @@ class SplashActivity : AppCompatActivity() {
             onBoardingViewModel.getSavedUserId().collect { userId ->
                 Timber.d("## [userId] userId : $userId")
                 delay(3000L)
+//                startActivity(
+//                    Intent(this@SplashActivity, MainActivity::class.java)
+//                )
                 if (userId != null) {
                     startActivity(
                         Intent(this@SplashActivity, HomeActivity::class.java)

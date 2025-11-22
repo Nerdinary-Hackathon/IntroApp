@@ -33,7 +33,7 @@ object UserMapper {
      */
     fun GetCardResponse.toEntity(): Card {
         return Card(
-            profileImg = this.profileImg,
+            profileImg = this.profileImg ?: "",
             nickname = this.nickName,
             jobGroup = JobGroup.from(this.jobGroup),
             techStacks = this.techStacks.map { TechStack.from(it) },

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 기술스택 TextView 관련 치수 -->
+    <dimen name="tech_stack_margin">8dp</dimen>
+    <dimen name="tech_stack_min_width">66dp</dimen>
+    <dimen name="tech_stack_min_height">32dp</dimen>
+    <dimen name="tech_stack_padding_horizontal">10dp</dimen>
+    <dimen name="tech_stack_padding_vertical">6dp</dimen>
+</resources>
