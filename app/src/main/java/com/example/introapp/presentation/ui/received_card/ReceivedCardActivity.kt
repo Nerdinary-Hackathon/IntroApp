@@ -200,22 +200,13 @@ class ReceivedCardActivity : AppCompatActivity() {
         // 선택된 카테고리에 해당하는 JobGroup 가져오기
         val selectedJobGroup = categoryMap[selectedCategory]
 
-        if (selectedJobGroup != null) {
-            // 특정 직군 선택 시 해당 직군만 조회
-            Timber.d("## [loadCardList] 특정 직군 조회 - $selectedJobGroup, cursor: $nextCursor")
-            userViewModel.getCardList(
-                userId = userId,
-                jobGroup = selectedJobGroup,
-                cursor = nextCursor
-            )
-        } else {
-            // "전체" 선택 시 모든 직군의 카드를 조회 (페이징 불가)
-            Timber.d("## [loadCardList] 전체 직군 조회")
-            userViewModel.getAllCardList(
-                userId = userId,
-                cursor = null
-            )
-        }
+        // jobGroup이 null이면 빈 문자열로 전체 조회 (서버 순서 유지)
+        Timber.d("## [loadCardList] 조회 - jobGroup: $selectedJobGroup, cursor: $nextCursor")
+        userViewModel.getCardList(
+            userId = userId,
+            jobGroup = selectedJobGroup, // null이면 서버에 빈 문자열 전달
+            cursor = nextCursor
+        )
     }
 
     /**
@@ -228,23 +219,18 @@ class ReceivedCardActivity : AppCompatActivity() {
 
         val userId = currentUserId
         if (userId == null) {
-            Timber.w("## [loadMoreCards] userId가 null입니다")
+            Timber.e("## [loadMoreCards] userId가 null")
             return
         }
 
         val selectedJobGroup = categoryMap[selectedCategory]
-        if (selectedJobGroup == null) {
-            // "전체" 카테고리는 페이징 불가
-            Timber.d("## [loadMoreCards] '전체' 카테고리는 페이징을 지원하지 않습니다")
-            return
-        }
 
         isLoadingMore = true
-        Timber.d("## [loadMoreCards] 다음 페이지 로드 - cursor: $nextCursor")
+        Timber.d("## [loadMoreCards] 다음 페이지 로드 - jobGroup: $selectedJobGroup, cursor: $nextCursor")
 
         userViewModel.getCardList(
             userId = userId,
-            jobGroup = selectedJobGroup,
+            jobGroup = selectedJobGroup, // "전체"도 페이징 가능
             cursor = nextCursor
         )
     }

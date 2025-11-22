@@ -94,7 +94,7 @@ class UserViewModel @Inject constructor(
      */
     fun getCardList(
         userId: String,
-        jobGroup: JobGroup,
+        jobGroup: JobGroup?, // nullable로 변경
         cursor: String? = null,
         size: Int = 10
     ) {
@@ -105,7 +105,7 @@ class UserViewModel @Inject constructor(
                 userId = userId,
                 cursor = cursor,
                 size = size,
-                jobGroup = jobGroup
+                jobGroup = jobGroup // null 허용
             )
                 .catch { error ->
                     _cardListState.value = UiState.Error(
@@ -126,9 +126,9 @@ class UserViewModel @Inject constructor(
 
     /**
      * 모든 직군의 명함 목록 조회 ("전체" 필터용)
-     *
-     * 모든 JobGroup에 대해 병렬로 API를 호출하고 결과를 병합
+     * - 이제 사용하지 않음, getCardList(jobGroup = null) 사용
      */
+    @Deprecated("Use getCardList with jobGroup = null instead")
     fun getAllCardList(
         userId: String,
         cursor: String? = null,

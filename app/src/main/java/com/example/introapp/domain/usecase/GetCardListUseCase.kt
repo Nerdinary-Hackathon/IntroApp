@@ -13,7 +13,7 @@ class GetCardListUseCase(
         userId: String,
         cursor: String? = null,
         size: Int = DEFAULT_PAGE_SIZE,
-        jobGroup: JobGroup
+        jobGroup: JobGroup?
     ): Flow<Result<CardList>> = flow {
         if (userId.isBlank()) {
             emit(Result.failure(IllegalArgumentException("사용자 ID가 비어있습니다")))
