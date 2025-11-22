@@ -10,14 +10,21 @@ import com.example.introapp.databinding.FragmentOnboarding4Binding
 
 class OnboardingFragment4 : Fragment() {
 
-    private lateinit var binding: FragmentOnboarding4Binding
+    private var _binding: FragmentOnboarding4Binding? = null
+    private val binding
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOnboarding4Binding.inflate(inflater, container, false)
+        _binding = FragmentOnboarding4Binding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

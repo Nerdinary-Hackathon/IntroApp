@@ -12,7 +12,9 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class OnboardingFragment1 : Fragment() {
-    private lateinit var binding: FragmentOnboarding1Binding
+    private var _binding: FragmentOnboarding1Binding? = null
+    private val binding
+        get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +23,8 @@ class OnboardingFragment1 : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentOnboarding1Binding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentOnboarding1Binding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,6 +42,11 @@ class OnboardingFragment1 : Fragment() {
                 // 화면 이동
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

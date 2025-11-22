@@ -10,14 +10,22 @@ import com.example.introapp.databinding.FragmentOnboarding3Binding
 
 class OnboardingFragment3 : Fragment() {
 
-    private lateinit var binding: FragmentOnboarding3Binding
+    private var _binding: FragmentOnboarding3Binding? = null
+    private val binding
+        get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOnboarding3Binding.inflate(inflater, container, false)
+        _binding = FragmentOnboarding3Binding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
