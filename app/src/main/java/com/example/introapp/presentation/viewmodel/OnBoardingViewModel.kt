@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -82,9 +83,11 @@ class OnBoardingViewModel @Inject constructor(
 
             // OnboardingData -> Profile entity
             val profile = data.toProfile()
+            Timber.d("## [프로필 작성 api] profile : $profile")
 
             submitProfileUseCase(profile)
                 .catch { error ->
+                    Timber.e("## [프로필 작성 api] error : $error")
                     _submitState.value = SubmitState.Error(
                         error.message ?: "알 수 없는 오류가 발생했습니다"
                     )
@@ -92,7 +95,9 @@ class OnBoardingViewModel @Inject constructor(
                 .collect { result ->
                     result.onSuccess { user ->
                         _submitState.value = SubmitState.Success(user)
+                        Timber.e("## [프로필 작성 api] 성공 : $user")
                     }.onFailure { error ->
+                        Timber.e("## [프로필 작성 api] 실패 : $error")
                         _submitState.value = SubmitState.Error(
                             error.message ?: "프로필 제출에 실패했습니다"
                         )
@@ -130,6 +135,7 @@ data class OnboardingData(
 ) {
     /**
      * OnboardingData를 Profile entity로 변환
+     * 한글 displayName을 API value로 변환
      */
     fun toProfile(): Profile {
         return Profile(
@@ -138,9 +144,11 @@ data class OnboardingData(
             phone = page1.phone,
             email = page1.email,
             link = page1.link,
-            jobGroup = JobGroup.from(page2.job),
-            level = Level.from(page4.career),
-            techStacks = page3.selectedTechStacks.map { TechStack.from(it) }
+            jobGroup = JobGroup.from(page2.job),           // "BACKEND" -> JobGroup.BACKEND
+            level = Level.from(page4.career),              // "JUNIOR" -> Level.JUNIOR
+            techStacks = page3.selectedTechStacks.map {
+                TechStack.from(it)                          // "JAVA" -> TechStack.JAVA
+            }
         )
     }
 }
