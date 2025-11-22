@@ -36,10 +36,21 @@ class OnboardingFragment2 : Fragment() {
 
     private fun setupViews() {
         binding.run {
-            layoutTop.bind(2, "직무", "나를 가장 잘 나타내는 직무를 하나 선택해주세요")
+            layoutTop.bind(
+                2,
+                getString(R.string.onboarding2_title),
+                getString(R.string.onboarding2_desc)
+            )
 
             // 직무 목록 설정
-            val jobs = listOf("PM(기획)", "웹", "디자인", "백엔드", "안드로이드", "iOS")
+            val jobs = listOf(
+                getString(R.string.pm),
+                getString(R.string.web),
+                getString(R.string.web),
+                getString(R.string.design),
+                getString(R.string.android),
+                getString(R.string.ios)
+            )
             jobSelector.setItems(jobs)
 
             // 선택 리스너

@@ -28,12 +28,36 @@ class OnboardingFragment1 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.run {
-            layoutTop.bind(1, "기본 정보", "기본 정보를 입력해주세요")
-            layoutName.bind(titleShow = true, title = "이름", placeholder = "실명을 기재해주세요.")
-            layoutNickName.bind(titleShow = true, title = "닉네임", placeholder = "닉네임을 기재해주세요.")
-            layoutPhone.bind(titleShow = true, title = "전화번호", placeholder = "전화번호를 기재해주세요.")
-            layoutEmail.bind(titleShow = true, title = "이메일", placeholder = "이메일을 기재해주세요.")
-            layoutLink.bind(titleShow = true, title = "링크", placeholder = "본인을 표현할 수 있는 링크를 기재해주세요.")
+            layoutTop.bind(
+                1,
+                getString(R.string.onboarding1_title),
+                getString(R.string.onboarding1_desc)
+            )
+            layoutName.bind(
+                titleShow = true,
+                title = getString(R.string.name),
+                placeholder = getString(R.string.name_input_alert)
+            )
+            layoutNickName.bind(
+                titleShow = true,
+                title = getString(R.string.nickname),
+                placeholder = getString(R.string.nickname_input_alert)
+            )
+            layoutPhone.bind(
+                titleShow = true,
+                title = getString(R.string.phone),
+                placeholder = getString(R.string.phone_input_alert)
+            )
+            layoutEmail.bind(
+                titleShow = true,
+                title = getString(R.string.email),
+                placeholder = getString(R.string.email_input_alert)
+            )
+            layoutLink.bind(
+                titleShow = true,
+                title = getString(R.string.link),
+                placeholder = getString(R.string.link_input_alert)
+            )
 
             btnGoTo2.setOnClickListener {
                 findNavController().navigate(R.id.action_page1_to_page2)

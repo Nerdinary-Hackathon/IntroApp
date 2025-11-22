@@ -39,42 +39,42 @@ class OnboardingFragment3 : Fragment() {
 
     private fun setupViews() {
         binding.run {
-            layoutTop.bind(3, "기술 스택", "사용 가능한 기술을 모두 선택해주세요")
+            layoutTop.bind(3, getString(R.string.onboarding3_title), getString(R.string.onboarding3_desc))
 
             // 프론트엔드
             categoryFrontend.setCategory(
-                "프론트엔드",
-                listOf("React", "Vue", "Next.js", "TypeScript", "Flutter")
+                getString(R.string.frontend),
+                listOf(getString(R.string.react), getString(R.string.vue), getString(R.string.nextjs), getString(R.string.typescript), getString(R.string.flutter))
             )
             categoryFrontend.setOnSelectionChangedListener { selected ->
-                updateTechStacks("프론트엔드", selected)
+                updateTechStacks(getString(R.string.frontend), selected)
             }
 
             // 백엔드
             categoryBackend.setCategory(
-                "백엔드",
-                listOf("Java", "Spring", "Python", "Django", "Node.js")
+                getString(R.string.backend),
+                listOf(getString(R.string.java), getString(R.string.spring), getString(R.string.python), getString(R.string.django), getString(R.string.nodejs))
             )
             categoryBackend.setOnSelectionChangedListener { selected ->
-                updateTechStacks("백엔드", selected)
+                updateTechStacks(getString(R.string.backend), selected)
             }
 
             // 디자인
             categoryDesign.setCategory(
-                "디자인",
-                listOf("Figma", "Photoshop", "Sketch", "3D", "Illustrator")
+                getString(R.string.design),
+                listOf(getString(R.string.figma), getString(R.string.photoshop), getString(R.string.sketch), getString(R.string.text_3d), getString(R.string.illustrator))
             )
             categoryDesign.setOnSelectionChangedListener { selected ->
-                updateTechStacks("디자인", selected)
+                updateTechStacks(getString(R.string.design), selected)
             }
 
             // 인프라/기타
             categoryInfra.setCategory(
-                "인프라/기타",
-                listOf("AWS", "Docker", "Kubernetes", "Git")
+                getString(R.string.infra),
+                listOf(getString(R.string.aws), getString(R.string.docker), getString(R.string.kubernetes), getString(R.string.git))
             )
             categoryInfra.setOnSelectionChangedListener { selected ->
-                updateTechStacks("인프라/기타", selected)
+                updateTechStacks(getString(R.string.infra), selected)
             }
 
             // 이전에 선택한 값이 있다면 복원

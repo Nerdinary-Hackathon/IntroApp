@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.introapp.R
 import com.example.introapp.databinding.FragmentOnboarding4Binding
 import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
@@ -38,10 +39,19 @@ class OnboardingFragment4 : Fragment() {
 
     private fun setupViews() {
         binding.run {
-            layoutTop.bind(4, "경력", "현재 나의 경력 레벨을 선택해주세요")
+            layoutTop.bind(
+                4,
+                getString(R.string.onboarding4_title),
+                getString(R.string.onboarding4_desc)
+            )
 
             // 경력 리스트 설정
-            val careers = listOf("취업준비생 | 대학생", "신입 (1년 미만)", "주니어 (1~3년)", "시니어 (3년 이상)")
+            val careers = listOf(
+                getString(R.string.student),
+                getString(R.string.newcomer),
+                getString(R.string.junior),
+                getString(R.string.senior)
+            )
             careerSelector.setItems(careers)
 
             careerSelector.setOnItemSelectedListener { selectedCareer ->
@@ -55,16 +65,14 @@ class OnboardingFragment4 : Fragment() {
             }
 
             btnGoToCompleteScreen.setOnClickListener {
-                val selectedCareer = careerSelector.getSelectedItem()
-                if (selectedCareer != null) {
-                    // 프로필 설정 완료 프래그먼트로 이동
-                    Toast.makeText(requireActivity(), "완료 화면 이동", Toast.LENGTH_SHORT).show()
-                    // TODO: Navigate to completion screen
-                    // findNavController().navigate(R.id.action_page4_to_page5)
-                } else {
-                    // 선택하지 않았을 때 에러 표시
-                    Toast.makeText(requireActivity(), "경력을 선택해주세요", Toast.LENGTH_SHORT).show()
-                }
+                findNavController().navigate(R.id.action_page4_to_page5)
+//                val selectedCareer = careerSelector.getSelectedItem()
+//                if (selectedCareer != null) {
+//                     findNavController().navigate(R.id.action_page4_to_page5)
+//                } else {
+//                    // 선택하지 않았을 때 에러 표시
+//                    Toast.makeText(requireActivity(), "경력을 선택해주세요", Toast.LENGTH_SHORT).show()
+//                }
             }
         }
     }
