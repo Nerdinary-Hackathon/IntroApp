@@ -36,4 +36,8 @@
             app:destination="@+id/onboardingFragment5"/>
     </fragment>
 
+    <fragment
+        android:id="@+id/onboardingFragment5"
+        android:name="com.example.introapp.presentation.ui.onboarding.OnboardingFragment5"/>
+
 </navigation>
