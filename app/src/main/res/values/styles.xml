@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ToggleButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="backgroundTint">@color/toggle_selector</item>
+        <item name="android:textColor">@color/toggle_text_selector</item>
+        <item name="shapeAppearanceOverlay">@style/ToggleCornerStyle</item>
+    </style>
+
+    <style name="CircleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+
+    <style name="ToggleCornerStyle">
+        <item name="cornerSize">16dp</item>
+    </style>
+</resources>
