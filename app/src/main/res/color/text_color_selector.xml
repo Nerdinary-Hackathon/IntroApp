@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 선택된 상태: color_050066 -->
+    <item android:state_selected="true" android:color="@color/color_050066" />
+    <!-- 선택되지 않은 상태: color_c2c4c8 -->
+    <item android:color="@color/color_c2c4c8" />
+</selector>
