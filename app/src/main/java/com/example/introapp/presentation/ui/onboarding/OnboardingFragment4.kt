@@ -48,7 +48,7 @@ class OnboardingFragment4 : Fragment() {
             // 경력 리스트 설정
             val careers = listOf(
                 getString(R.string.student),
-                getString(R.string.newcomer),
+                getString(R.string.entry),
                 getString(R.string.junior),
                 getString(R.string.senior)
             )

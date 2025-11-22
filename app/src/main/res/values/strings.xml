@@ -56,7 +56,7 @@
     <string name="onboarding4_title">경력</string>
     <string name="onboarding4_desc">현재 나의 경력 레벨을 선택해주세요</string>
     <string name="student">대학생</string>
-    <string name="newcomer">신입 (1년 미만)</string>
+    <string name="entry">신입 (1년 미만)</string>
     <string name="junior">주니어 (1~3년)</string>
     <string name="senior">시니어 (3년 이상)</string>
 
