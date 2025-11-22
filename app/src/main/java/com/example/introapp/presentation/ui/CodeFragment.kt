@@ -73,6 +73,8 @@ class CodeFragment : Fragment() {
                                 // 로딩 오버레이 숨김
                                 hideLoading()
                                 Toast.makeText(requireContext(), "이미 추가한 명함입니다", Toast.LENGTH_SHORT).show()
+                                // 에러 후 상태 초기화
+                                userViewModel.resetExchangeState()
                             }
                             UiState.Idle -> {
                                 // 초기 상태
@@ -88,6 +90,8 @@ class CodeFragment : Fragment() {
                                 Toast.makeText(requireActivity(), "명함 교환에 성공했습니다!", Toast.LENGTH_SHORT).show()
                                 // 입력 필드 초기화
                                 binding.etFriendCode.text?.clear()
+                                // 성공 후 상태 초기화
+                                userViewModel.resetExchangeState()
                             }
                         }
                     }
