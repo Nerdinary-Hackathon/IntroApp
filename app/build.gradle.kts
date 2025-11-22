@@ -83,4 +83,13 @@ dependencies {
     implementation(libs.converter.kotlinx.serialization)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+
+    //버튼 그룹
+    implementation("com.google.android.material:material:1.12.0")
+
+    //카드뷰
+    implementation("androidx.cardview:cardview:1.0.0")
+
+
 }
+

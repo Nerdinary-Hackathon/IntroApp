@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    
+
     <color name="color_1a">#A1A1A1</color>
     <color name="color_666666">#666666</color>
     <color name="color_050066">#050066</color>
@@ -36,5 +36,11 @@
     <color name="android_more_soft">#FEFFEB</color>
     <color name="ios_deep">#B1FF85</color>
     <color name="ios_soft">#E2FFD1</color>
+
     <color name="ios_more_soft">#F2FFEB</color>
+    <color name="light_gray">#E7E7E7</color>
+    <color name="dark_gray">#6F6F6F</color>
+    <color name="text_nam">#050066</color>
+    <color name="text_job">#989BA2</color>
+
 </resources>
