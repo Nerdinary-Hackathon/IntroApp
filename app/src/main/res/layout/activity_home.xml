@@ -39,41 +39,45 @@
             android:src="@drawable/normal" />
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/tabs"
+    <LinearLayout
+        android:id="@+id/llTabs"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_tabs_container"
+        android:orientation="horizontal"
         android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_layout"
-        app:selectionRequired="true"
-        app:singleSelection="true">
+        app:layout_constraintTop_toBottomOf="@id/top_layout">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/tab_card"
-            style="@style/ToggleButtonStyle"
+        <TextView
+            android:id="@+id/tvTabCard"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="내 명함" />
+            android:layout_weight="0.5"
+            android:background="@drawable/bg_tab_selected"
+            android:gravity="center"
+            android:text="나의 명함"
+            android:textColor="@color/text_color_tab_selector" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/tab_code"
-            style="@style/ToggleButtonStyle"
+        <TextView
+            android:id="@+id/tvTabCode"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="나의 코드" />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="나의 코드"
+            android:textColor="@color/text_color_tab_selector" />
 
-    <!--프래그먼트들이 들어갈 프레임레이아웃    -->
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/homeFrm"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabs" />
-
+        app:layout_constraintTop_toBottomOf="@id/llTabs" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

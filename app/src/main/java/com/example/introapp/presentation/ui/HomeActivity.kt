@@ -33,22 +33,18 @@ class HomeActivity : AppCompatActivity() {
             .replace(R.id.homeFrm, CardFragment())
             .commit()
 
-        // 상단 두 버튼에 클릭 리스너 적용
-        binding.tabs.addOnButtonCheckedListener { group, checkedId, isChecked ->
-            if (isChecked) {
-                when (checkedId) {
-                    R.id.tab_card -> {
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.homeFrm, CardFragment())
-                            .commit()
-                    }
-                    R.id.tab_code -> {
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.homeFrm, CodeFragment())
-                            .commit()
-                    }
-                }
-            }
+        binding.tvTabCard.setOnClickListener {
+            selectTab(true)  // 내 명함 탭 선택
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.homeFrm, CardFragment())
+                .commit()
+        }
+
+        binding.tvTabCode.setOnClickListener {
+            selectTab(false)  // 나의 코드 탭 선택
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.homeFrm, CodeFragment())
+                .commit()
         }
 
         binding.ivConvertCard.setOnClickListener {
@@ -59,6 +55,28 @@ class HomeActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+    }
+
+    /**
+     * 탭 선택 상태를 변경하는 메서드
+     * @param isCardTab true면 명함 탭, false면 코드 탭을 선택
+     */
+    private fun selectTab(isCardTab: Boolean) {
+        if (isCardTab) {
+            // 명함 탭 선택
+            binding.tvTabCard.setBackgroundResource(R.drawable.bg_tab_selected)
+            binding.tvTabCard.isSelected = true
+            // 코드 탭 비선택
+            binding.tvTabCode.background = null
+            binding.tvTabCode.isSelected = false
+        } else {
+            // 코드 탭 선택
+            binding.tvTabCode.setBackgroundResource(R.drawable.bg_tab_selected)
+            binding.tvTabCode.isSelected = true
+            // 명함 탭 비선택
+            binding.tvTabCard.background = null
+            binding.tvTabCard.isSelected = false
         }
     }
 
