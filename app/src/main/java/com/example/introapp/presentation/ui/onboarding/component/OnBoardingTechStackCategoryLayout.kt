@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.example.introapp.R
 import com.example.introapp.databinding.LayoutTechStackCategoryBinding
 
-class TechStackCategoryLayout @JvmOverloads constructor(
+class OnBoardingTechStackCategoryLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
@@ -58,13 +58,10 @@ class TechStackCategoryLayout @JvmOverloads constructor(
         val isSelected = !view.isSelected
         view.isSelected = isSelected
 
-        // 대문자로 변환하여 저장 - api 요청 시 대문자로 넘김
-        val upperCaseValue = value.uppercase()
-
         if (isSelected) {
-            selectedItems.add(upperCaseValue)
+            selectedItems.add(value)
         } else {
-            selectedItems.remove(upperCaseValue)
+            selectedItems.remove(value)
         }
 
         // 리스너 호출
@@ -79,19 +76,34 @@ class TechStackCategoryLayout @JvmOverloads constructor(
     // 현재 선택된 항목들 가져오기
     fun getSelectedItems(): Set<String> = selectedItems.toSet()
 
-    // 프로그래밍 방식으로 선택 설정
+    // 프로그래밍 방식으로 선택 설정 (리스너 호출 없음)
     fun setSelectedItems(items: Set<String>) {
         selectedItems.clear()
-        // 대문자로 변환하여 저장
-        selectedItems.addAll(items.map { it.uppercase() })
+        selectedItems.addAll(items)
 
         // UI 업데이트
         for (i in 0 until binding.chipGroup.childCount) {
             val chip = binding.chipGroup.getChildAt(i)
             val textView = chip.findViewById<TextView>(R.id.tvChip)
             val text = textView.text.toString()
-            // 대문자로 비교
-            chip.isSelected = selectedItems.contains(text.uppercase())
+            chip.isSelected = selectedItems.contains(text)
+        }
+    }
+
+    /**
+     * 리스너 호출 없이 UI만 업데이트
+     * 3개 제한에 걸렸을 때 마지막 클릭을 취소하기 위해 사용
+     */
+    fun setSelectedItemsSilently(items: Set<String>) {
+        selectedItems.clear()
+        selectedItems.addAll(items)
+
+        // UI 업데이트
+        for (i in 0 until binding.chipGroup.childCount) {
+            val chip = binding.chipGroup.getChildAt(i)
+            val textView = chip.findViewById<TextView>(R.id.tvChip)
+            val text = textView.text.toString()
+            chip.isSelected = selectedItems.contains(text)
         }
     }
 

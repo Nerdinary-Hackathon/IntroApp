@@ -30,25 +30,25 @@
             android:orientation="vertical">
 
             <!-- 프론트엔드 -->
-            <com.example.introapp.presentation.ui.onboarding.component.TechStackCategoryLayout
+            <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTechStackCategoryLayout
                 android:id="@+id/categoryFrontend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <!-- 백엔드 -->
-            <com.example.introapp.presentation.ui.onboarding.component.TechStackCategoryLayout
+            <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTechStackCategoryLayout
                 android:id="@+id/categoryBackend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <!-- 디자인 -->
-            <com.example.introapp.presentation.ui.onboarding.component.TechStackCategoryLayout
+            <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTechStackCategoryLayout
                 android:id="@+id/categoryDesign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <!-- 인프라/기타 -->
-            <com.example.introapp.presentation.ui.onboarding.component.TechStackCategoryLayout
+            <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTechStackCategoryLayout
                 android:id="@+id/categoryInfra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

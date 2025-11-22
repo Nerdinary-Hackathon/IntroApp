@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.introapp.R
 import com.example.introapp.databinding.FragmentOnboarding3Binding
-import com.example.introapp.presentation.ui.onboarding.component.TechStackCategoryLayout
+import com.example.introapp.presentation.ui.onboarding.component.OnBoardingTechStackCategoryLayout
 import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -133,7 +133,7 @@ class OnboardingFragment3 : Fragment() {
     private fun updateTechStacks(
         category: String,
         selected: Set<String>,
-        categoryView: TechStackCategoryLayout
+        categoryView: OnBoardingTechStackCategoryLayout
     ) {
         // 해당 카테고리의 기존 선택 항목들
         val currentCategoryItems = allSelectedTechStacks.filter {
@@ -149,8 +149,8 @@ class OnboardingFragment3 : Fragment() {
         // 최대 선택 개수 초과 체크
         if (newTotalCount > maxSelectionCount) {
             Toast.makeText(requireContext(), "분야는 3개만 선택할 수 있어요", Toast.LENGTH_SHORT).show()
-            // 이전 선택 상태로 복원
-            categoryView.setSelectedItems(currentCategoryItems)
+            // 이전 선택 상태로 복원 (리스너 호출 없이)
+            categoryView.setSelectedItemsSilently(currentCategoryItems)
             return
         }
 
@@ -164,6 +164,9 @@ class OnboardingFragment3 : Fragment() {
         viewModel.updateTechStacks(allSelectedTechStacks)
     }
 
+    /**
+     * 카테고리에 해당하는 모든 기술 스택 리스트 리턴
+     */
     private fun getTechStacksByCategory(category: String): List<String> {
         return when (category) {
             getString(R.string.frontend) -> listOf(
