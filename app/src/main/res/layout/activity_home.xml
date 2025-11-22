@@ -12,19 +12,19 @@
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/Iv_arrow_left"
+            android:id="@+id/ivArrowLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/arrow_left"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_left" />
 
         <android.widget.Space
             android:layout_width="0dp"
@@ -32,11 +32,11 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/Iv_convert_card"
+            android:id="@+id/ivConvertCard"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/normal"
-            android:layout_marginEnd="20dp"/>
+            android:layout_height="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/normal" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButtonToggleGroup
@@ -44,27 +44,27 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:padding="4dp"
-        app:singleSelection="true"
-        app:selectionRequired="true"
-        app:layout_constraintTop_toBottomOf="@id/top_layout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/top_layout"
+        app:selectionRequired="true"
+        app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tab_card"
+            style="@style/ToggleButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="내 명함"
-            style="@style/ToggleButtonStyle" />
+            android:text="내 명함" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tab_code"
+            style="@style/ToggleButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="나의 코드"
-            style="@style/ToggleButtonStyle" />
+            android:text="나의 코드" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <!--프래그먼트들이 들어갈 프레임레이아웃    -->
@@ -73,8 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabs"/>
-
+        app:layout_constraintTop_toBottomOf="@id/tabs" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
