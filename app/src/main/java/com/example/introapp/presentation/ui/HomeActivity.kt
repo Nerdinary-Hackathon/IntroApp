@@ -114,7 +114,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun showCardMenuPopup(anchorView: View) {
-        // 팝업 레이아웃 인플레이트
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView = inflater.inflate(R.layout.popup_card_menu, null)
 
@@ -123,7 +122,7 @@ class HomeActivity : AppCompatActivity() {
             popupView,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
-            true // 외부 터치 시 닫히도록 설정
+            true // 외부 터치 시 닫힘
         )
 
         // 팝업 외부 터치 시 닫히게 설정
@@ -131,13 +130,7 @@ class HomeActivity : AppCompatActivity() {
         popupWindow.isFocusable = true
 
         // 메뉴 아이템 클릭 리스너 설정
-        val menuMyCard = popupView.findViewById<TextView>(R.id.menu_my_card)
         val menuReceivedCard = popupView.findViewById<TextView>(R.id.menu_received_card)
-
-        // "내 명함" 클릭
-        menuMyCard.setOnClickListener {
-            popupWindow.dismiss()
-        }
 
         // "받은명함" 클릭
         menuReceivedCard.setOnClickListener {
