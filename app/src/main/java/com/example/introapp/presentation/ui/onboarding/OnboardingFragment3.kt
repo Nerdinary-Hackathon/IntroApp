@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.introapp.R
 import com.example.introapp.databinding.FragmentOnboarding3Binding
+import com.example.introapp.presentation.ui.onboarding.component.TechStackCategoryLayout
 import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,6 +24,9 @@ class OnboardingFragment3 : Fragment() {
 
     // 전체 선택된 기술 스택
     private val allSelectedTechStacks = mutableSetOf<String>()
+
+    // 최대 선택 가능 개수
+    private val maxSelectionCount = 3
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +62,7 @@ class OnboardingFragment3 : Fragment() {
                 )
             )
             categoryFrontend.setOnSelectionChangedListener { selected ->
-                updateTechStacks(getString(R.string.frontend), selected)
+                updateTechStacks(getString(R.string.frontend), selected, categoryFrontend)
             }
 
             // 백엔드
@@ -72,7 +77,7 @@ class OnboardingFragment3 : Fragment() {
                 )
             )
             categoryBackend.setOnSelectionChangedListener { selected ->
-                updateTechStacks(getString(R.string.backend), selected)
+                updateTechStacks(getString(R.string.backend), selected, categoryBackend)
             }
 
             // 디자인
@@ -87,7 +92,7 @@ class OnboardingFragment3 : Fragment() {
                 )
             )
             categoryDesign.setOnSelectionChangedListener { selected ->
-                updateTechStacks(getString(R.string.design), selected)
+                updateTechStacks(getString(R.string.design), selected, categoryDesign)
             }
 
             // 인프라/기타
@@ -101,7 +106,7 @@ class OnboardingFragment3 : Fragment() {
                 )
             )
             categoryInfra.setOnSelectionChangedListener { selected ->
-                updateTechStacks(getString(R.string.infra), selected)
+                updateTechStacks(getString(R.string.infra), selected, categoryInfra)
             }
 
             // 이전에 선택한 값이 있다면 복원
@@ -119,7 +124,36 @@ class OnboardingFragment3 : Fragment() {
         }
     }
 
-    private fun updateTechStacks(category: String, selected: Set<String>) {
+    /**
+     * 기술 스택 선택을 업데이트하고 최대 선택 개수 체크
+     * @param category 카테고리 이름
+     * @param selected 선택된 항목들
+     * @param categoryView 해당 카테고리 뷰 (선택 복원용)
+     */
+    private fun updateTechStacks(
+        category: String,
+        selected: Set<String>,
+        categoryView: TechStackCategoryLayout
+    ) {
+        // 해당 카테고리의 기존 선택 항목들
+        val currentCategoryItems = allSelectedTechStacks.filter {
+            getTechStacksByCategory(category).contains(it)
+        }.toSet()
+
+        // 기존 선택에서 해당 카테고리 항목을 제외한 개수
+        val otherCategoriesCount = allSelectedTechStacks.size - currentCategoryItems.size
+
+        // 새로운 전체 선택 개수
+        val newTotalCount = otherCategoriesCount + selected.size
+
+        // 최대 선택 개수 초과 체크
+        if (newTotalCount > maxSelectionCount) {
+            Toast.makeText(requireContext(), "분야는 3개만 선택할 수 있어요", Toast.LENGTH_SHORT).show()
+            // 이전 선택 상태로 복원
+            categoryView.setSelectedItems(currentCategoryItems)
+            return
+        }
+
         // 해당 카테고리의 기존 선택 항목 제거
         allSelectedTechStacks.removeAll(getTechStacksByCategory(category))
 
@@ -147,6 +181,7 @@ class OnboardingFragment3 : Fragment() {
                 getString(R.string.django),
                 getString(R.string.nodejs)
             )
+
             getString(R.string.design) -> listOf(
                 getString(R.string.figma),
                 getString(R.string.photoshop),
@@ -154,22 +189,35 @@ class OnboardingFragment3 : Fragment() {
                 getString(R.string.text_3d),
                 getString(R.string.illustrator)
             )
+
             getString(R.string.infra) -> listOf(
                 getString(R.string.aws),
                 getString(R.string.docker),
                 getString(R.string.kubernetes),
                 getString(R.string.git)
             )
+
             else -> emptyList()
         }
     }
 
+    /**
+     * 이전에 선택한 기술 스택들을 각 카테고리 뷰에 복원
+     */
     private fun restoreSelections(techStacks: Set<String>) {
         binding.run {
-            val frontend = techStacks.filter { getTechStacksByCategory(getString(R.string.frontend)).contains(it) }.toSet()
-            val backend = techStacks.filter { getTechStacksByCategory(getString(R.string.backend)).contains(it) }.toSet()
-            val design = techStacks.filter { getTechStacksByCategory(getString(R.string.design)).contains(it) }.toSet()
-            val infra = techStacks.filter { getTechStacksByCategory(getString(R.string.infra)).contains(it) }.toSet()
+            val frontend = techStacks.filter {
+                getTechStacksByCategory(getString(R.string.frontend)).contains(it)
+            }.toSet()
+            val backend = techStacks.filter {
+                getTechStacksByCategory(getString(R.string.backend)).contains(it)
+            }.toSet()
+            val design = techStacks.filter {
+                getTechStacksByCategory(getString(R.string.design)).contains(it)
+            }.toSet()
+            val infra = techStacks.filter {
+                getTechStacksByCategory(getString(R.string.infra)).contains(it)
+            }.toSet()
 
             if (frontend.isNotEmpty()) categoryFrontend.setSelectedItems(frontend)
             if (backend.isNotEmpty()) categoryBackend.setSelectedItems(backend)
