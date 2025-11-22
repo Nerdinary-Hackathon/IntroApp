@@ -46,7 +46,7 @@ class OnboardingFragment2 : Fragment() {
             val jobs = listOf(
                 getString(R.string.pm),
                 getString(R.string.web),
-                getString(R.string.web),
+                getString(R.string.backend),
                 getString(R.string.design),
                 getString(R.string.android),
                 getString(R.string.ios)
