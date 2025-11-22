@@ -16,12 +16,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- ScrollView로 감싸서 스크롤 가능하게 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoTo4"
+        app:layout_constraintTop_toBottomOf="@+id/layoutTop">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 프론트엔드 -->
+            <com.example.introapp.presentation.ui.onboarding.component.TechStackCategoryLayout
+                android:id="@+id/categoryFrontend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 백엔드 -->
+            <com.example.introapp.presentation.ui.onboarding.component.TechStackCategoryLayout
+                android:id="@+id/categoryBackend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 디자인 -->
+            <com.example.introapp.presentation.ui.onboarding.component.TechStackCategoryLayout
+                android:id="@+id/categoryDesign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- 인프라/기타 -->
+            <com.example.introapp.presentation.ui.onboarding.component.TechStackCategoryLayout
+                android:id="@+id/categoryInfra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGoTo4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="14dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/bg_onboarding_button"
         android:fontFamily="@font/pretendard_semibold"
         android:includeFontPadding="false"

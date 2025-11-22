@@ -55,12 +55,13 @@ class OnboardingFragment2 : Fragment() {
 
             // 다음 버튼
             btnGoTo3.setOnClickListener {
-                val selectedJob = jobSelector.getSelectedItem()
-                if (selectedJob != null) {
-                    findNavController().navigate(R.id.action_page2_to_page3)
-                } else {
-                    // TODO: 선택하지 않았을 때 에러 표시
-                }
+                findNavController().navigate(R.id.action_page2_to_page3)
+//                val selectedJob = jobSelector.getSelectedItem()
+//                if (selectedJob != null) {
+//                    findNavController().navigate(R.id.action_page2_to_page3)
+//                } else {
+//                    // TODO: 선택하지 않았을 때 에러 표시
+//                }
             }
         }
     }

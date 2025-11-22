@@ -40,30 +40,7 @@ class OnBoardingViewModel @Inject constructor() : ViewModel() {
     }
 
     // 3페이지 - 기술 스택 추가/제거
-    fun toggleTechStack(tech: String) {
-        _onboardingData.update { current ->
-            val currentList = current.page3.selectedTechStacks.toMutableList()
-            if (currentList.contains(tech)) {
-                currentList.remove(tech)
-            } else {
-                currentList.add(tech)
-            }
-
-            current.copy(
-                page3 = current.page3.copy(
-                    selectedTechStacks = currentList
-                )
-            )
-        }
-    }
-
-    // 특정 기술이 선택되어 있는지 확인
-    fun isTechStackSelected(tech: String): Boolean {
-        return _onboardingData.value.page3.selectedTechStacks.contains(tech)
-    }
-
-    // 페이지 3 전체 업데이트
-    fun updateTechStacks(techStacks: List<String>) {
+    fun updateTechStacks(techStacks: Set<String>) {
         _onboardingData.update { it.copy(page3 = it.page3.copy(selectedTechStacks = techStacks)) }
     }
 }
@@ -87,7 +64,7 @@ data class Page2Data(
 )
 
 data class Page3Data(
-    val selectedTechStacks: List<String> = emptyList()
+    val selectedTechStacks: Set<String> = emptySet()
 )
 
 //data class Page3Data(
