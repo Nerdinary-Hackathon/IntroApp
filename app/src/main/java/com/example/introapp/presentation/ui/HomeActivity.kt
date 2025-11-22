@@ -1,5 +1,6 @@
 package com.example.introapp.presentation.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.introapp.R
 import com.example.introapp.databinding.ActivityHomeBinding
+import com.example.introapp.presentation.ui.received_card.ReceivedCardActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -91,6 +93,9 @@ class HomeActivity : AppCompatActivity() {
         menuReceivedCard.setOnClickListener {
             Toast.makeText(this, "받은명함", Toast.LENGTH_SHORT).show()
             popupWindow.dismiss()
+            startActivity(
+                Intent(this, ReceivedCardActivity::class.java)
+            )
         }
 
         // 팝업 표시 위치 계산 (앵커뷰의 아래 오른쪽에 정렬)
