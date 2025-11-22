@@ -57,17 +57,25 @@ class CardFragment : Fragment() {
                         when (cardState) {
                             is UiState.Error -> {
                                 Timber.e("## [명함 조회] Error - ${cardState.message}")
+                                // 로딩 오버레이 숨김
+                                hideLoading()
                                 Toast.makeText(requireContext(), cardState.message, Toast.LENGTH_SHORT).show()
                             }
                             UiState.Idle -> {
                                 Timber.d("## [명함 조회] Idle")
+                                // 로딩 오버레이 숨김
+                                hideLoading()
                             }
                             UiState.Loading -> {
                                 Timber.d("## [명함 조회] Loading")
+                                // 로딩 오버레이 표시
+                                showLoading()
                             }
                             is UiState.Success -> {
                                 val card = cardState.data
                                 Timber.d("## [명함 조회] 성공 - card : $card")
+                                // 로딩 오버레이 숨김
+                                hideLoading()
                                 updateCardUI(card)
                             }
                         }
@@ -204,6 +212,20 @@ class CardFragment : Fragment() {
             // 폰트 설정
             typeface = resources.getFont(R.font.pretendard_medium)
         }
+    }
+
+    /**
+     * 로딩 오버레이 표시
+     */
+    private fun showLoading() {
+        (activity as? HomeActivity)?.showLoading()
+    }
+
+    /**
+     * 로딩 오버레이 숨김
+     */
+    private fun hideLoading() {
+        (activity as? HomeActivity)?.hideLoading()
     }
 
 }

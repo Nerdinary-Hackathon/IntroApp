@@ -147,11 +147,25 @@ class HomeActivity : AppCompatActivity() {
             )
         }
 
-        // 팝업 표시 위치 계산 (앵커뷰의 아래 오른쪽에 정렬)
+        // 팝업 표시 위치 계산 (앵커뷰 아래 오른쪽에 정렬)
         popupWindow.showAsDropDown(
             anchorView,
             -100, // x 오프셋 (왼쪽으로 이동)
             10    // y 오프셋 (아래로 약간 이동)
         )
+    }
+
+    /**
+     * 로딩 오버레이 표시 (Fragment에서 호출 가능하도록 public)
+     */
+    fun showLoading() {
+        binding.loadingOverlay.visibility = View.VISIBLE
+    }
+
+    /**
+     * 로딩 오버레이 숨김 (Fragment에서 호출 가능하도록 public)
+     */
+    fun hideLoading() {
+        binding.loadingOverlay.visibility = View.GONE
     }
 }

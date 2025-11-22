@@ -43,7 +43,6 @@ class CardDetailActivity : AppCompatActivity() {
         }
 
         userId = intent.getIntExtra("userId", -1)
-        Timber.e("## [상세화면] userId : $userId")
 
         userViewModel.getCard(userId.toString())
 
@@ -52,17 +51,25 @@ class CardDetailActivity : AppCompatActivity() {
                 when (state) {
                     is UiState.Error -> {
                         Timber.e("## [명함 조회] Error - ${state.message}")
+                        // 로딩 오버레이 숨김
+                        hideLoading()
                         Toast.makeText(this@CardDetailActivity, state.message, Toast.LENGTH_SHORT).show()
                     }
                     UiState.Idle -> {
                         Timber.d("## [명함 조회] Idle")
+                        // 로딩 오버레이 숨김
+                        hideLoading()
                     }
                     UiState.Loading -> {
                         Timber.d("## [명함 조회] Loading")
+                        // 로딩 오버레이 표시
+                        showLoading()
                     }
                     is UiState.Success -> {
                         val card = state.data
                         Timber.d("## [명함 조회] 성공 - card : $card")
+                        // 로딩 오버레이 숨김
+                        hideLoading()
                         updateCardUI(card)
                     }
                 }
@@ -199,5 +206,19 @@ class CardDetailActivity : AppCompatActivity() {
             // 폰트 설정
             typeface = resources.getFont(R.font.pretendard_medium)
         }
+    }
+
+    /**
+     * 로딩 오버레이 표시
+     */
+    private fun showLoading() {
+        binding.loadingOverlay.visibility = android.view.View.VISIBLE
+    }
+
+    /**
+     * 로딩 오버레이 숨김
+     */
+    private fun hideLoading() {
+        binding.loadingOverlay.visibility = android.view.View.GONE
     }
 }

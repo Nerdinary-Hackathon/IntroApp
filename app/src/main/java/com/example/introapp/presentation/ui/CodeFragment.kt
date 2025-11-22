@@ -65,21 +65,43 @@ class CodeFragment : Fragment() {
                         when (state) {
                             is UiState.Error -> {
                                 Timber.e("## [명함 교환] 에러 : ${state.message}")
+                                // 로딩 오버레이 숨김
+                                hideLoading()
                                 Toast.makeText(requireContext(), "이미 추가한 명함입니다", Toast.LENGTH_SHORT).show()
                             }
                             UiState.Idle -> {
                                 // 초기 상태
+                                hideLoading()
                             }
                             UiState.Loading -> {
-                                // 로딩 중 - 필요시 프로그레스바 표시
+                                // 로딩 중 - 프로그레스바 표시
+                                showLoading()
                             }
                             is UiState.Success -> {
+                                // 로딩 오버레이 숨김
+                                hideLoading()
                                 Toast.makeText(requireActivity(), "명함 교환에 성공했습니다!", Toast.LENGTH_SHORT).show()
+                                // 입력 필드 초기화
+                                binding.etFriendCode.text?.clear()
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    /**
+     * 로딩 오버레이 표시
+     */
+    private fun showLoading() {
+        binding.loadingOverlay.visibility = View.VISIBLE
+    }
+
+    /**
+     * 로딩 오버레이 숨김
+     */
+    private fun hideLoading() {
+        binding.loadingOverlay.visibility = View.GONE
     }
 }

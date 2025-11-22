@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.introapp.R
 import com.example.introapp.databinding.ActivityReceivedCardBinding
+import com.example.introapp.domain.entity.CardList
 import com.example.introapp.domain.entity.CardSummary
 import com.example.introapp.domain.entity.JobGroup
 import com.example.introapp.presentation.ui.detail.CardDetailActivity
@@ -183,21 +184,29 @@ class ReceivedCardActivity : AppCompatActivity() {
     /**
      * 카드 목록 상태 처리
      */
-    private fun handleCardListState(state: UiState<com.example.introapp.domain.entity.CardList>) {
+    private fun handleCardListState(state: UiState<CardList>) {
         when (state) {
             is UiState.Error -> {
                 Timber.e("## [명함 목록 조회] Error - ${state.message}")
+                // 로딩 오버레이 숨김
+                hideLoading()
                 Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()
             }
             UiState.Idle -> {
                 Timber.d("## [명함 목록 조회] Idle")
+                // 로딩 오버레이 숨김
+                hideLoading()
             }
             UiState.Loading -> {
                 Timber.d("## [명함 목록 조회] Loading")
-                // TODO: 로딩 인디케이터 표시
+                // 로딩 오버레이 표시
+                showLoading()
             }
             is UiState.Success -> {
                 Timber.d("## [명함 목록 조회] Success - ${state.data.cards.size}개")
+
+                // 로딩 오버레이 숨김
+                hideLoading()
 
                 // 전체 리스트 저장
                 allCardList = state.data.cards
@@ -244,5 +253,19 @@ class ReceivedCardActivity : AppCompatActivity() {
                 rvReceivedCard.visibility = android.view.View.VISIBLE
             }
         }
+    }
+
+    /**
+     * 로딩 오버레이 표시
+     */
+    private fun showLoading() {
+        binding.loadingOverlay.visibility = android.view.View.VISIBLE
+    }
+
+    /**
+     * 로딩 오버레이 숨김
+     */
+    private fun hideLoading() {
+        binding.loadingOverlay.visibility = android.view.View.GONE
     }
 }
