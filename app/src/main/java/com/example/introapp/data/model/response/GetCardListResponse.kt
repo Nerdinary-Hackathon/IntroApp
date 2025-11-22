@@ -24,7 +24,7 @@ data class CardItem(
     val userId: Int,
 
     @SerialName("profileImg")
-    val profileImg: String,
+    val profileImg: String? = null,
 
     @SerialName("nickName")
     val nickName: String,

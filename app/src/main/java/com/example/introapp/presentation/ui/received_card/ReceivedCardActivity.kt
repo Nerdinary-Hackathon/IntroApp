@@ -1,14 +1,24 @@
 package com.example.introapp.presentation.ui.received_card
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.introapp.R
-import com.example.introapp.data.model.response.CardItem
 import com.example.introapp.databinding.ActivityReceivedCardBinding
+import com.example.introapp.domain.entity.CardSummary
+import com.example.introapp.domain.entity.JobGroup
+import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
+import com.example.introapp.presentation.viewmodel.UiState
+import com.example.introapp.presentation.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -17,18 +27,27 @@ class ReceivedCardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReceivedCardBinding
     private val receivedCardAdapter: ReceivedCardAdapter = ReceivedCardAdapter()
 
-    // 전체 카드 리스트 (필터링 전)
-    private var allCardList: List<CardItem> = emptyList()
+    private val onBoardingViewModel: OnBoardingViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
 
-    // 카테고리 한글-영어 매핑
+    // 전체 카드 리스트 저장 (로컬 필터링용)
+    private var allCardList: List<CardSummary> = emptyList()
+
+    // 현재 사용자 ID
+    private var currentUserId: String? = null
+
+    // 현재 선택된 카테고리 (기본값: "전체")
+    private var selectedCategory: String = "전체"
+
+    // 카테고리 한글-JobGroup enum 매핑
     private val categoryMap = mapOf(
-        "전체" to null,  // null은 필터링 없음을 의미
-        "PM" to "PM",
-        "디자인" to "Designer",
-        "웹" to "Web",
-        "백엔드" to "Backend",
-        "안드로이드" to "Android",
-        "iOS" to "iOS"
+        "전체" to null,
+        "PM" to JobGroup.PM,
+        "디자인" to JobGroup.DESIGNER,
+        "웹" to JobGroup.WEB,
+        "백엔드" to JobGroup.BACKEND,
+        "안드로이드" to JobGroup.ANDROID,
+        "iOS" to JobGroup.IOS
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,33 +61,150 @@ class ReceivedCardActivity : AppCompatActivity() {
             insets
         }
 
+        setupObservers()
+        setupViews()
+    }
+
+    /**
+     * ViewModel 상태 관찰 설정
+     */
+    private fun setupObservers() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // userId 관찰 및 API 호출
+                launch {
+                    onBoardingViewModel.getSavedUserId().collect { userId ->
+                        if (userId != null) {
+                            currentUserId = userId.toString()
+                            Timber.d("## [userId] 조회됨 - $currentUserId")
+
+                            // userId를 받으면 카드 목록 조회
+                            loadCardList()
+                        } else {
+                            Timber.e("## [userId] null - 사용자 ID를 가져올 수 없습니다")
+                            Toast.makeText(
+                                this@ReceivedCardActivity,
+                                "사용자 정보를 가져올 수 없습니다",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+
+                // 카드 목록 상태 관찰
+                launch {
+                    userViewModel.cardListState.collect { state ->
+                        handleCardListState(state)
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 뷰 설정
+     */
+    private fun setupViews() {
         binding.run {
             ivArrowLeft.setOnClickListener { finish() }
 
+            // 카테고리 필터 설정
             categoryFilter.apply {
                 setSingleSelectionMode(true)
                 setCategory(
                     title = "",
                     items = listOf("전체", "PM", "디자인", "웹", "백엔드", "안드로이드", "iOS")
                 )
-                setSelectedItems(setOf("전체"))
+                setSelectedItems(setOf(selectedCategory))
 
                 setOnSelectionChangedListener { selectedItems ->
-                    val selectedCategory = selectedItems.firstOrNull() ?: "전체"
-                    Timber.d("## [카테고리] 선택됨 - $selectedCategory")
-                    filterCardsByCategory(selectedCategory)
+                    val newCategory = selectedItems.firstOrNull() ?: "전체"
+                    if (newCategory != selectedCategory) {
+                        selectedCategory = newCategory
+                        Timber.d("## [카테고리] 선택됨 - $selectedCategory")
+
+                        // 옵션 1: 로컬 필터링 (빠르지만 이미 로드된 데이터만 필터링)
+                        filterCardsByCategory(selectedCategory)
+
+                        // 옵션 2: API 재호출 (느리지만 최신 데이터 보장)
+                        // loadCardList()
+                    }
                 }
             }
 
+            // RecyclerView 설정
             rvReceivedCard.adapter = receivedCardAdapter
-            receivedCardAdapter.setOnItemClickListener { cardItem ->
-                Timber.d("## [리사이클러뷰] 아이템 클릭 - userId : ${cardItem.userId}, jobGroup : ${cardItem.jobGroup}, nickname : ${cardItem.nickName}")
+            receivedCardAdapter.setOnItemClickListener { cardSummary ->
+                Timber.d("## [리사이클러뷰] 아이템 클릭 - jobGroup: ${cardSummary.jobGroup}, nickname: ${cardSummary.nickname}")
+                // TODO: 명함 상세 화면으로 이동
             }
-
-            setupMockData()
         }
     }
 
+    /**
+     * 카드 목록을 로드하는 함수
+     * 현재 선택된 필터에 따라 API 호출
+     */
+    private fun loadCardList() {
+        val userId = currentUserId
+        if (userId == null) {
+            Timber.w("## [loadCardList] userId가 null입니다")
+            Toast.makeText(this, "사용자 정보가 없습니다", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // 선택된 카테고리에 해당하는 JobGroup 가져오기
+        val selectedJobGroup = categoryMap[selectedCategory]
+
+        if (selectedJobGroup != null) {
+            // 특정 직군 선택 시: 해당 직군만 조회
+            Timber.d("## [loadCardList] 특정 직군 조회 - $selectedJobGroup")
+            userViewModel.getCardList(
+                userId = userId,
+                jobGroup = selectedJobGroup,
+                cursor = null
+            )
+        } else {
+            // "전체" 선택 시: 모든 직군의 카드를 조회
+            Timber.d("## [loadCardList] 전체 직군 조회")
+            userViewModel.getAllCardList(
+                userId = userId,
+                cursor = null
+            )
+        }
+    }
+
+    /**
+     * 카드 목록 상태 처리
+     */
+    private fun handleCardListState(state: UiState<com.example.introapp.domain.entity.CardList>) {
+        when (state) {
+            is UiState.Error -> {
+                Timber.e("## [명함 목록 조회] Error - ${state.message}")
+                Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()
+            }
+            UiState.Idle -> {
+                Timber.d("## [명함 목록 조회] Idle")
+            }
+            UiState.Loading -> {
+                Timber.d("## [명함 목록 조회] Loading")
+                // TODO: 로딩 인디케이터 표시
+            }
+            is UiState.Success -> {
+                Timber.d("## [명함 목록 조회] Success - ${state.data.cards.size}개")
+
+                // 전체 리스트 저장
+                allCardList = state.data.cards
+
+                // 현재 선택된 필터에 따라 표시
+                filterCardsByCategory(selectedCategory)
+            }
+        }
+    }
+
+    /**
+     * 카테고리에 따라 카드 목록을 필터링하는 함수 (로컬 필터링)
+     */
     private fun filterCardsByCategory(category: String) {
         val jobGroup = categoryMap[category]
 
@@ -82,62 +218,5 @@ class ReceivedCardActivity : AppCompatActivity() {
 
         receivedCardAdapter.submitList(filteredList)
         Timber.d("## [필터링] 카테고리: $category, jobGroup: $jobGroup, 결과: ${filteredList.size}개")
-    }
-
-    // TODO : api 응답으로 변경
-    private fun setupMockData() {
-        val mockCardList = listOf(
-            CardItem(
-                userId = 1,
-                profileImg = "backend_onboarding_profile",
-                nickName = "디노",
-                jobGroup = "Backend"
-            ),
-            CardItem(
-                userId = 1,
-                profileImg = "android_onboarding_profile",
-                nickName = "민규",
-                jobGroup = "Android"
-            ),
-            CardItem(
-                userId = 1,
-                profileImg = "ios_onboarding_profile",
-                nickName = "승관",
-                jobGroup = "iOS"
-            ),
-            CardItem(
-                userId = 1,
-                profileImg = "web_onboarding_profile",
-                nickName = "우지",
-                jobGroup = "Web"
-            ),
-            CardItem(
-                userId = 1,
-                profileImg = "design_onboarding_profile",
-                nickName = "준휘",
-                jobGroup = "Designer"
-            ),
-            CardItem(
-                userId = 1,
-                profileImg = "pm_onboarding_profile",
-                nickName = "호시",
-                jobGroup = "PM"
-            ),
-            CardItem(
-                userId = 1,
-                profileImg = "backend_onboarding_profile",
-                nickName = "정한",
-                jobGroup = "Backend"
-            ),
-            CardItem(
-                userId = 1,
-                profileImg = "android_onboarding_profile",
-                nickName = "조슈아",
-                jobGroup = "Android"
-            )
-        )
-
-        allCardList = mockCardList
-        receivedCardAdapter.submitList(mockCardList)
     }
 }
