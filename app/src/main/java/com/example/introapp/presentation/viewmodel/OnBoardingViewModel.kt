@@ -43,12 +43,18 @@ class OnBoardingViewModel @Inject constructor() : ViewModel() {
     fun updateTechStacks(techStacks: Set<String>) {
         _onboardingData.update { it.copy(page3 = it.page3.copy(selectedTechStacks = techStacks)) }
     }
+
+    // 4페이지 - 경력
+    fun updateCareer(value: String) {
+        _onboardingData.update { it.copy(page4 = it.page4.copy(career = value)) }
+    }
 }
 
 data class OnboardingData(
     val page1: Page1Data = Page1Data(),
     val page2: Page2Data = Page2Data(),
     val page3: Page3Data = Page3Data(),
+    val page4: Page4Data = Page4Data(),
 )
 
 data class Page1Data(
@@ -65,6 +71,10 @@ data class Page2Data(
 
 data class Page3Data(
     val selectedTechStacks: Set<String> = emptySet()
+)
+
+data class Page4Data(
+    val career: String = ""
 )
 
 //data class Page3Data(
