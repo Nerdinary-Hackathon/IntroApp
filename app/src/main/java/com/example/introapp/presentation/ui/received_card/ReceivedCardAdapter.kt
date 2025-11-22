@@ -39,25 +39,23 @@ class ReceivedCardAdapter : ListAdapter<CardSummary, ReceivedCardAdapter.Receive
 
         fun bind(item: CardSummary, onItemClick: ((CardSummary) -> Unit)?) {
             binding.apply {
-                // 프로필 이미지
-                if (item.profileImg.startsWith("http")) {
-                    // URL인 경우
-                    ivReceivedCardProfile.load(item.profileImg) {
-                        crossfade(true)
-                        placeholder(R.drawable.android_onboarding_profile)
-                        error(R.drawable.android_onboarding_profile)
-                    }
-                } else {
-                    // 드로어블 리소스 이름인 경우
-                    val resourceId = binding.root.context.resources.getIdentifier(
-                        item.profileImg,
-                        "drawable",
-                        binding.root.context.packageName
-                    )
+                // 프로필 이미지 - JobGroup에 따라 기본 이미지 결정
+                val defaultProfileImage = getJobGroupProfileImage(item.jobGroup)
+                val resourceId = binding.root.context.resources.getIdentifier(
+                    item.profileImg,
+                    "drawable",
+                    binding.root.context.packageName
+                )
+
+                if (resourceId != 0) {
+                    // 유효한 리소스 ID인 경우
                     ivReceivedCardProfile.load(resourceId) {
                         crossfade(true)
-                        error(R.drawable.android_onboarding_profile)
+                        error(defaultProfileImage)
                     }
+                } else {
+                    // 리소스를 찾을 수 없는 경우 JobGroup에 따른 기본 이미지 사용
+                    ivReceivedCardProfile.setImageResource(defaultProfileImage)
                 }
 
                 // 닉네임
@@ -93,12 +91,26 @@ class ReceivedCardAdapter : ListAdapter<CardSummary, ReceivedCardAdapter.Receive
                 JobGroup.IOS -> ContextCompat.getColor(context, R.color.ios_deep)
             }
         }
+
+        /**
+         * 직군에 따른 프로필 이미지를 반환하는 함수
+         */
+        private fun getJobGroupProfileImage(jobGroup: JobGroup): Int {
+            return when (jobGroup) {
+                JobGroup.PM -> R.drawable.pm_onboarding_profile
+                JobGroup.DESIGNER -> R.drawable.design_onboarding_profile
+                JobGroup.WEB -> R.drawable.web_onboarding_profile
+                JobGroup.BACKEND -> R.drawable.backend_onboarding_profile
+                JobGroup.ANDROID -> R.drawable.android_onboarding_profile
+                JobGroup.IOS -> R.drawable.ios_onboarding_profile
+            }
+        }
     }
 
     private class CardSummaryDiffCallback : DiffUtil.ItemCallback<CardSummary>() {
         override fun areItemsTheSame(oldItem: CardSummary, newItem: CardSummary): Boolean {
-            // nickname으로 아이템 식별 (userId가 없으므로)
-            return oldItem.nickname == newItem.nickname && oldItem.jobGroup == newItem.jobGroup
+            // userId로 아이템 식별
+            return oldItem.userId == newItem.userId
         }
 
         override fun areContentsTheSame(oldItem: CardSummary, newItem: CardSummary): Boolean {
