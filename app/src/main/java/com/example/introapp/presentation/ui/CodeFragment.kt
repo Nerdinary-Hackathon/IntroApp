@@ -72,7 +72,12 @@ class CodeFragment : Fragment() {
                                 Timber.e("## [명함 교환] 에러 : ${state.message}")
                                 // 로딩 오버레이 숨김
                                 hideLoading()
-                                Toast.makeText(requireContext(), "이미 추가한 명함입니다", Toast.LENGTH_SHORT).show()
+                                if (state.message.contains("404")) {
+                                    Toast.makeText(requireContext(), "검색 결과가 없습니다", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(requireContext(), "이미 추가한 명함입니다", Toast.LENGTH_SHORT).show()
+                                }
+
                                 // 에러 후 상태 초기화
                                 userViewModel.resetExchangeState()
                             }
