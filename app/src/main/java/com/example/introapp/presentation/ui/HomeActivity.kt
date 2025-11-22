@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.introapp.R
 import com.example.introapp.databinding.ActivityHomeBinding
 import com.example.introapp.presentation.ui.received_card.ReceivedCardActivity
@@ -25,6 +26,9 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = true  // 상태 바 아이콘/텍스트를 어둡게
+        }
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

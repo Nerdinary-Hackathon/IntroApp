@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.introapp.R
 import com.example.introapp.databinding.ActivityCardDetailBinding
@@ -32,6 +33,9 @@ class CardDetailActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityCardDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = true  // 상태 바 아이콘/텍스트를 어둡게
+        }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cardDetailMain)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
