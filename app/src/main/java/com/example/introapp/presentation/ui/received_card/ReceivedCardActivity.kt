@@ -24,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+// 받은 명함 리스트 화면
 @AndroidEntryPoint
 class ReceivedCardActivity : AppCompatActivity() {
 
@@ -128,12 +129,7 @@ class ReceivedCardActivity : AppCompatActivity() {
                     if (newCategory != selectedCategory) {
                         selectedCategory = newCategory
                         Timber.d("## [카테고리] 선택됨 - $selectedCategory")
-
-                        // 옵션 1: 로컬 필터링 (빠르지만 이미 로드된 데이터만 필터링)
                         filterCardsByCategory(selectedCategory)
-
-                        // 옵션 2: API 재호출 (느리지만 최신 데이터 보장)
-                        // loadCardList()
                     }
                 }
             }
@@ -227,6 +223,26 @@ class ReceivedCardActivity : AppCompatActivity() {
         }
 
         receivedCardAdapter.submitList(filteredList)
+        updateEmptyState(filteredList.isEmpty())
         Timber.d("## [필터링] 카테고리: $category, jobGroup: $jobGroup, 결과: ${filteredList.size}개")
+    }
+
+    /**
+     * 빈 상태 UI 업데이트
+     *
+     * @param isEmpty true면 빈 상태 텍스트 표시, false면 리사이클러뷰 표시
+     */
+    private fun updateEmptyState(isEmpty: Boolean) {
+        binding.apply {
+            if (isEmpty) {
+                // 데이터가 없을 때: 빈 상태 텍스트 표시, 리사이클러뷰 숨김
+                tvEmptyState.visibility = android.view.View.VISIBLE
+                rvReceivedCard.visibility = android.view.View.GONE
+            } else {
+                // 데이터가 있을 때: 리사이클러뷰 표시, 빈 상태 텍스트 숨김
+                tvEmptyState.visibility = android.view.View.GONE
+                rvReceivedCard.visibility = android.view.View.VISIBLE
+            }
+        }
     }
 }
