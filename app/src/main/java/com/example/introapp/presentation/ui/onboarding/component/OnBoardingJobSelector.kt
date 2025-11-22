@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.example.introapp.R
 import com.example.introapp.databinding.LayoutOnboardingJobSelectorBinding
 
@@ -45,6 +46,9 @@ class OnBoardingJobSelector @JvmOverloads constructor(
         val textView = itemView.findViewById<TextView>(R.id.tvItem)
         textView.text = text
 
+        // 초기 폰트 설정 (선택 안됨 상태)
+        textView.typeface = ResourcesCompat.getFont(context, R.font.pretendard_regular)
+
         // selector drawable 적용
         itemView.background = ContextCompat.getDrawable(
             context,
@@ -71,11 +75,20 @@ class OnBoardingJobSelector @JvmOverloads constructor(
 
     private fun selectItem(view: View, value: String) {
         // 이전 선택 해제
-        selectedView?.isSelected = false
+        selectedView?.let {
+            it.isSelected = false
+            // 이전 선택 항목의 폰트를 regular로 변경
+            val prevTextView = it.findViewById<TextView>(R.id.tvItem)
+            prevTextView.typeface = ResourcesCompat.getFont(context, R.font.pretendard_regular)
+        }
 
         // 새로운 선택 설정
         view.isSelected = true
         selectedView = view
+
+        // 선택된 항목의 폰트를 semibold로 변경
+        val textView = view.findViewById<TextView>(R.id.tvItem)
+        textView.typeface = ResourcesCompat.getFont(context, R.font.pretendard_semibold)
 
         // 리스너 호출
         onItemSelectedListener?.invoke(value)
@@ -100,7 +113,12 @@ class OnBoardingJobSelector @JvmOverloads constructor(
 
     // 선택 초기화
     fun clearSelection() {
-        selectedView?.isSelected = false
+        selectedView?.let {
+            it.isSelected = false
+            // 폰트를 regular로 변경
+            val textView = it.findViewById<TextView>(R.id.tvItem)
+            textView.typeface = ResourcesCompat.getFont(context, R.font.pretendard_regular)
+        }
         selectedView = null
     }
 }

@@ -14,7 +14,7 @@
         android:fontFamily="@font/pretendard_bold"
         android:text="프론트엔드"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="18dp" />
 
     <!-- Chip들이 들어갈 FlexboxLayout 또는 커스텀 뷰 -->
     <com.google.android.material.chip.ChipGroup
