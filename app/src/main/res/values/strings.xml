@@ -1,3 +1,62 @@
 <resources>
     <string name="app_name">IntroApp</string>
+
+    <!-- 온보딩 - 1번 -->
+    <string name="onboarding1_title">기본 정보</string>
+    <string name="onboarding1_desc">기본 정보를 입력해주세요</string>
+    <string name="basic_info">기본 정보</string>
+    <string name="basic_info_input_alert">기본 정보를 입력해주세요.</string>
+    <string name="name">이름</string>
+    <string name="name_input_alert">실명을 기재해주세요.</string>
+    <string name="nickname">닉네임</string>
+    <string name="nickname_input_alert">닉네임을 기재해주세요.</string>
+    <string name="phone">전화번호</string>
+    <string name="phone_input_alert">전화번호를 기재해주세요.</string>
+    <string name="email">이메일</string>
+    <string name="email_input_alert">이메일을 기재해주세요.</string>
+    <string name="link">링크</string>
+    <string name="link_input_alert">본인을 표현할 수 있는 링크를 기재해주세요.</string>
+
+    <!-- 온보딩 - 2번 -->
+    <string name="onboarding2_title">직무</string>
+    <string name="onboarding2_desc">나를 가장 잘 나타내는 직무를 하나 선택해주세요</string>
+    <string name="pm">PM(기획)</string>
+    <string name="web">웹</string>
+    <string name="design">디자인</string>
+    <string name="backend">백엔드</string>
+    <string name="android">안드로이드</string>
+    <string name="ios">iOS</string>
+
+    <!-- 온보딩 - 3번 -->
+    <string name="onboarding3_title">기술 스택</string>
+    <string name="onboarding3_desc">사용 가능한 기술을 모두 선택해주세요</string>
+    <string name="frontend">프론트엔드</string>
+    <string name="react">React</string>
+    <string name="vue">Vue</string>
+    <string name="nextjs">Next.js</string>
+    <string name="typescript">TypeScript</string>
+    <string name="flutter">Flutter</string>
+    <string name="java">Java</string>
+    <string name="spring">Spring</string>
+    <string name="python">Python</string>
+    <string name="django">Django</string>
+    <string name="nodejs">Node.js</string>
+    <string name="figma">Figma</string>
+    <string name="photoshop">Photoshop</string>
+    <string name="sketch">Sketch</string>
+    <string name="text_3d">3D</string>
+    <string name="illustrator">Illustrator</string>
+    <string name="infra">인프라/기타</string>
+    <string name="aws">AWS</string>
+    <string name="docker">Docker</string>
+    <string name="kubernetes">Kubernetes</string>
+    <string name="git">Git</string>
+
+    <!-- 온보딩 - 4번 -->
+    <string name="onboarding4_title">경력</string>
+    <string name="onboarding4_desc">현재 나의 경력 레벨을 선택해주세요</string>
+    <string name="student">대학생</string>
+    <string name="newcomer">신입 (1년 미만)</string>
+    <string name="junior">주니어 (1~3년)</string>
+    <string name="senior">시니어 (3년 이상)</string>
 </resources>

@@ -2,17 +2,39 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <color name="color_1a">#A1A1A1</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_050066">#050066</color>
+    <color name="color_e4e3ff">#E4E3FF</color>
+    <color name="color_cccccc">#CCCCCC</color>
+    <color name="color_0f0f10">#0F0F10</color>
+    <color name="color_70737c">#70737C</color>
+    <color name="color_c2c4c8">#C2C4C8</color>
+
+    <color name="color_0f0f10_0">#000F0F10</color>
+    <color name="color_0f0f10_20">#330F0F10</color>
+    <color name="color_0f0f10_40">#660F0F10</color>
+    <color name="color_0f0f10_60">#990F0F10</color>
+    <color name="color_0f0f10_80">#CC0F0F10</color>
+    <color name="color_0f0f10_90">#E60F0F10</color>
 
     <color name="pm_deep">#FF8585</color>
     <color name="pm_soft">#FFD1D1</color>
+    <color name="pm_more_soft">#FFEBEB</color>
     <color name="design_deep">#EB85FF</color>
     <color name="design_soft">#F7D1FF</color>
+    <color name="design_more_soft">#FCEBFF</color>
     <color name="web_deep">#AD85FF</color>
     <color name="web_soft">#E0D1FF</color>
+    <color name="web_more_soft">#F1EBFF</color>
     <color name="backend_deep">#85C6FF</color>
     <color name="backend_soft">#D1EAFF</color>
+    <color name="backend_more_soft">#EBF5FF</color>
     <color name="android_deep">#FBFF85</color>
     <color name="android_soft">#FDFFD1</color>
+    <color name="android_more_soft">#FEFFEB</color>
     <color name="ios_deep">#B1FF85</color>
     <color name="ios_soft">#E2FFD1</color>
+    <color name="ios_more_soft">#F2FFEB</color>
 </resources>

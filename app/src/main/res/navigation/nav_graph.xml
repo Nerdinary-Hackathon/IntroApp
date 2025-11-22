@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/onboardingFragment1">
+
+    <fragment
+        android:id="@+id/onboardingFragment1"
+        android:name="com.example.introapp.presentation.ui.onboarding.OnboardingFragment1">
+        <action
+            android:id="@+id/action_page1_to_page2"
+            app:destination="@+id/onboardingFragment2"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboardingFragment2"
+        android:name="com.example.introapp.presentation.ui.onboarding.OnboardingFragment2">
+        <action
+            android:id="@+id/action_page2_to_page3"
+            app:destination="@+id/onboardingFragment3"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboardingFragment3"
+        android:name="com.example.introapp.presentation.ui.onboarding.OnboardingFragment3">
+        <action
+            android:id="@+id/action_page3_to_page4"
+            app:destination="@+id/onboardingFragment4"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboardingFragment4"
+        android:name="com.example.introapp.presentation.ui.onboarding.OnboardingFragment4">
+        <action
+            android:id="@+id/action_page4_to_page5"
+            app:destination="@+id/onboardingFragment5"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboardingFragment5"
+        android:name="com.example.introapp.presentation.ui.onboarding.OnboardingFragment5"/>
+
+</navigation>

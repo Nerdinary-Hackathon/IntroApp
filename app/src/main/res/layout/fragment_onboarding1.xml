@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ui.onboarding.OnboardingFragment1">
+
+    <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTopLayout
+        android:id="@+id/layoutTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTextOrInput
+        android:id="@+id/layoutName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutTop"/>
+
+    <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTextOrInput
+        android:id="@+id/layoutNickName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutName"/>
+
+    <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTextOrInput
+        android:id="@+id/layoutPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutNickName"/>
+
+    <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTextOrInput
+        android:id="@+id/layoutEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutPhone"/>
+
+    <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTextOrInput
+        android:id="@+id/layoutLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutEmail"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnGoTo2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="다음"
+        android:fontFamily="@font/pretendard_semibold"
+        android:includeFontPadding="false"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginBottom="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bg_onboarding_button"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
