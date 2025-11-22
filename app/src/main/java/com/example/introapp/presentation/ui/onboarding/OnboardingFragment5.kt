@@ -31,6 +31,7 @@ class OnboardingFragment5 : Fragment() {
                 startActivity(
                     Intent(requireActivity(), HomeActivity::class.java)
                 )
+                requireActivity().finish()
             }
         }
     }
