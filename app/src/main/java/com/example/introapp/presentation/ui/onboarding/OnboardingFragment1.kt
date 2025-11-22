@@ -1,6 +1,7 @@
 package com.example.introapp.presentation.ui.onboarding
 
 import android.os.Bundle
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -46,17 +47,20 @@ class OnboardingFragment1 : Fragment() {
             layoutPhone.bind(
                 titleShow = true,
                 title = getString(R.string.phone),
-                placeholder = getString(R.string.phone_input_alert)
+                placeholder = getString(R.string.phone_input_alert),
+                inputType = InputType.TYPE_CLASS_PHONE
             )
             layoutEmail.bind(
                 titleShow = true,
                 title = getString(R.string.email),
-                placeholder = getString(R.string.email_input_alert)
+                placeholder = getString(R.string.email_input_alert),
+                inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS or InputType.TYPE_CLASS_TEXT
             )
             layoutLink.bind(
                 titleShow = true,
                 title = getString(R.string.link),
-                placeholder = getString(R.string.link_input_alert)
+                placeholder = getString(R.string.link_input_alert),
+                inputType = InputType.TYPE_TEXT_VARIATION_URI or InputType.TYPE_CLASS_TEXT
             )
 
             btnGoTo2.setOnClickListener {
