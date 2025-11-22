@@ -42,5 +42,8 @@
     <color name="dark_gray">#6F6F6F</color>
     <color name="text_nam">#050066</color>
     <color name="text_job">#989BA2</color>
+    <color name="text_gray">#70737C</color>
+    <color name="text_moregray">#5C5C66</color>
+    <color name="text_sky">#84C6FF</color>
 
 </resources>

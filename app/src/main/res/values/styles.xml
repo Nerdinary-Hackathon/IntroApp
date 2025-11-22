@@ -13,8 +13,24 @@
         <item name="cornerSize">50%</item>
     </style>
 
-
     <style name="ToggleCornerStyle">
         <item name="cornerSize">16dp</item>
     </style>
+
+   <!--입력 버튼 커스터마이징    -->
+    <style name="SubmitButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="shapeAppearanceOverlay">@style/SubmitButtonShape</item>
+    </style>
+
+    <style name="SubmitButtonShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">10dp</item>
+        <item name="cornerSizeBottomRight">10dp</item>
+        <!-- 왼쪽은 직선으로 유지 -->
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+
+
 </resources>
