@@ -5,19 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".presentation.ui.onboarding.OnboardingFragment3">
-
-    <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTopLayout
-        android:id="@+id/layoutTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".presentation.ui.onboarding.OnboardingFragment5">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnGoTo4"
+        android:id="@+id/btnGoToMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="14dp"
@@ -25,7 +16,7 @@
         android:background="@drawable/bg_onboarding_button"
         android:fontFamily="@font/pretendard_semibold"
         android:includeFontPadding="false"
-        android:text="다음"
+        android:text="내 프로필 확인하기"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

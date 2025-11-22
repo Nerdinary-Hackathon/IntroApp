@@ -28,4 +28,12 @@
             app:destination="@+id/onboardingFragment4"/>
     </fragment>
 
+    <fragment
+        android:id="@+id/onboardingFragment4"
+        android:name="com.example.introapp.presentation.ui.onboarding.OnboardingFragment4">
+        <action
+            android:id="@+id/action_page4_to_page5"
+            app:destination="@+id/onboardingFragment5"/>
+    </fragment>
+
 </navigation>
