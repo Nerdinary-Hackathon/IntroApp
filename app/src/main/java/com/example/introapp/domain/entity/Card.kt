@@ -18,6 +18,7 @@ data class Card(
  * 명함 간단 정보 (목록용)
  */
 data class CardSummary(
+    val userId: Int,
     val profileImg: String,
     val nickname: String,
     val jobGroup: JobGroup

@@ -1,6 +1,7 @@
 package com.example.introapp.data.api
 
 import com.example.introapp.data.model.ApiResponse
+import com.example.introapp.data.model.ApiResponseEmpty
 import com.example.introapp.data.model.request.ProfileRequest
 import com.example.introapp.data.model.response.EmptyResponse
 import com.example.introapp.data.model.response.GetCardListResponse
@@ -31,7 +32,7 @@ interface UserService {
     suspend fun exchangeCard(
         @Header("userId") userId: String,
         @Query("cardCode") cardCode: String,
-    ): ApiResponse<EmptyResponse>
+    ): ApiResponseEmpty
 
     /**
      * 명함 조회

@@ -2,6 +2,7 @@ package com.example.introapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.introapp.data.local.UserPreferencesDataStore
 import com.example.introapp.domain.entity.JobGroup
 import com.example.introapp.domain.entity.Level
 import com.example.introapp.domain.entity.Profile
@@ -10,6 +11,7 @@ import com.example.introapp.domain.entity.User
 import com.example.introapp.domain.repository.UserRepository
 import com.example.introapp.domain.usecase.SubmitProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val submitProfileUseCase: SubmitProfileUseCase,
+    private val userPreferencesDataStore: UserPreferencesDataStore,
 ) : ViewModel() {
 
     // 온보딩 데이터
@@ -95,6 +98,7 @@ class OnBoardingViewModel @Inject constructor(
                 .collect { result ->
                     result.onSuccess { user ->
                         _submitState.value = SubmitState.Success(user)
+                        userPreferencesDataStore.saveUserId(user.userId)
                         Timber.e("## [프로필 작성 api] 성공 : $user")
                     }.onFailure { error ->
                         Timber.e("## [프로필 작성 api] 실패 : $error")
@@ -105,6 +109,9 @@ class OnBoardingViewModel @Inject constructor(
                 }
         }
     }
+
+    // api 호출 후 저장된 userId 리턴
+    fun getSavedUserId(): Flow<Int?> = userPreferencesDataStore.getUserId()
 
     /**
      * 제출 상태 초기화

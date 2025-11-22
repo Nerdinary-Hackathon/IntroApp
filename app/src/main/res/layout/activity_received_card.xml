@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/homeMain"
+    android:id="@+id/receivedCardMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".presentation.ui.HomeActivity">
+    tools:context=".presentation.ui.received_card.ReceivedCardActivity">
 
     <LinearLayout
-        android:id="@+id/top_layout"
+        android:id="@+id/layoutReceivedCardTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -26,60 +26,45 @@
             android:layout_marginStart="20dp"
             android:src="@drawable/arrow_left" />
 
-        <android.widget.Space
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:fontFamily="@font/pretendard_medium"
+            android:gravity="center"
+            android:text="받은명함"
+            android:textColor="@color/black" />
 
         <ImageView
             android:id="@+id/ivConvertCard"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/normal" />
+            android:src="@drawable/normal"
+            android:visibility="invisible" />
+
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/llTabs"
+    <com.example.introapp.presentation.ui.onboarding.component.OnBoardingTechStackCategoryLayout
+        android:id="@+id/categoryFilter"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/bg_tabs_container"
-        android:orientation="horizontal"
-        android:padding="4dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_layout">
+        app:layout_constraintTop_toBottomOf="@+id/layoutReceivedCardTop" />
 
-        <TextView
-            android:id="@+id/tvTabCard"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:background="@drawable/bg_tab_selected"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="center"
-            android:text="나의 명함"
-            android:textColor="@color/color_0f0f10" />
-
-        <TextView
-            android:id="@+id/tvTabCode"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:fontFamily="@font/pretendard_medium"
-            android:gravity="center"
-            android:text="나의 코드"
-            android:textColor="@color/color_0f0f10_40" />
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/homeFrm"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvReceivedCard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llTabs" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/categoryFilter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

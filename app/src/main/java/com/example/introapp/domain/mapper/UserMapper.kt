@@ -33,7 +33,7 @@ object UserMapper {
      */
     fun GetCardResponse.toEntity(): Card {
         return Card(
-            profileImg = this.profileImg,
+            profileImg = this.profileImg ?: "",
             nickname = this.nickName,
             jobGroup = JobGroup.from(this.jobGroup),
             techStacks = this.techStacks.map { TechStack.from(it) },
@@ -58,10 +58,23 @@ object UserMapper {
 
     /**
      * CardItem → CardSummary
+     *
+     * profileImg가 null이거나 빈 문자열인 경우 기본 이미지 경로 사용
      */
     private fun CardItem.toEntity(): CardSummary {
+        val defaultImage = when (this.jobGroup.uppercase()) {
+            "PM" -> "pm_onboarding_profile"
+            "DESIGNER" -> "design_onboarding_profile"
+            "WEB" -> "web_onboarding_profile"
+            "BACKEND" -> "backend_onboarding_profile"
+            "ANDROID" -> "android_onboarding_profile"
+            "IOS" -> "ios_onboarding_profile"
+            else -> "android_onboarding_profile"
+        }
+
         return CardSummary(
-            profileImg = this.profileImg,
+            userId = this.userId,
+            profileImg = this.profileImg.orEmpty().ifEmpty { defaultImage },
             nickname = this.nickName,
             jobGroup = JobGroup.from(this.jobGroup)
         )

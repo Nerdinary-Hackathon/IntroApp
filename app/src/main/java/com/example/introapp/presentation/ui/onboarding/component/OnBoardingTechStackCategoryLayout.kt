@@ -23,8 +23,21 @@ class OnBoardingTechStackCategoryLayout @JvmOverloads constructor(
     private val selectedItems = mutableSetOf<String>()
     private var onSelectionChangedListener: ((Set<String>) -> Unit)? = null
 
+    // 단일 선택 모드 플래그 추가
+    private var isSingleSelectionMode = false
+
+    // 단일 선택 모드 설정 메서드 추가
+    fun setSingleSelectionMode(enabled: Boolean) {
+        isSingleSelectionMode = enabled
+    }
+
     // 카테고리 설정
     fun setCategory(title: String, items: List<String>) {
+        if (title.isEmpty()) {
+            binding.tvCategoryTitle.visibility = GONE
+        } else {
+            binding.tvCategoryTitle.visibility = VISIBLE
+        }
         binding.tvCategoryTitle.text = title
         binding.chipGroup.removeAllViews()
         selectedItems.clear()
@@ -54,14 +67,31 @@ class OnBoardingTechStackCategoryLayout @JvmOverloads constructor(
     }
 
     private fun toggleChip(view: View, value: String) {
-        // 선택 상태 토글
-        val isSelected = !view.isSelected
-        view.isSelected = isSelected
+        if (isSingleSelectionMode) {
+            // 같은 항목을 다시 클릭한 경우 (선택 해제 방지)
+            if (selectedItems.contains(value)) {
+                return
+            }
 
-        if (isSelected) {
+            // 모든 칩 선택 해제
+            for (i in 0 until binding.chipGroup.childCount) {
+                binding.chipGroup.getChildAt(i).isSelected = false
+            }
+            selectedItems.clear()
+
+            // 새로운 칩 선택
+            view.isSelected = true
             selectedItems.add(value)
         } else {
-            selectedItems.remove(value)
+            // 다중 선택 모드: 기존 로직
+            val isSelected = !view.isSelected
+            view.isSelected = isSelected
+
+            if (isSelected) {
+                selectedItems.add(value)
+            } else {
+                selectedItems.remove(value)
+            }
         }
 
         // 리스너 호출
