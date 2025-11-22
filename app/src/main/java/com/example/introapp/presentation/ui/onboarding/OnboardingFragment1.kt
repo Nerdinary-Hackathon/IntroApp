@@ -48,7 +48,8 @@ class OnboardingFragment1 : Fragment() {
                 titleShow = true,
                 title = getString(R.string.phone),
                 placeholder = getString(R.string.phone_input_alert),
-                inputType = InputType.TYPE_CLASS_PHONE
+                inputType = InputType.TYPE_CLASS_PHONE,
+                enablePhoneFormatter = true
             )
             layoutEmail.bind(
                 titleShow = true,
