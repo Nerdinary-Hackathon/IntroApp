@@ -17,6 +17,9 @@
         android:theme="@style/Theme.IntroApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".presentation.ui.detail.CardDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.ui.received_card.ReceivedCardActivity"
             android:exported="false" />
         <activity

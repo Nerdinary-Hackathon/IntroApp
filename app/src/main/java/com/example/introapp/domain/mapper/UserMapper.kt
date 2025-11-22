@@ -73,6 +73,7 @@ object UserMapper {
         }
 
         return CardSummary(
+            userId = this.userId,
             profileImg = this.profileImg.orEmpty().ifEmpty { defaultImage },
             nickname = this.nickName,
             jobGroup = JobGroup.from(this.jobGroup)

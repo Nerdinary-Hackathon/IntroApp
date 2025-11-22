@@ -1,75 +1,64 @@
-package com.example.introapp.presentation.ui
+package com.example.introapp.presentation.ui.detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.introapp.R
-import com.example.introapp.databinding.FragmentCardBinding
+import com.example.introapp.databinding.ActivityCardDetailBinding
 import com.example.introapp.domain.entity.Card
-import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
 import com.example.introapp.presentation.viewmodel.UiState
 import com.example.introapp.presentation.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import kotlin.getValue
 
-// 내 명함
 @AndroidEntryPoint
-class CardFragment : Fragment() {
-    private lateinit var binding: FragmentCardBinding
-    private val onBoardingViewModel: OnBoardingViewModel by viewModels()
+class CardDetailActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityCardDetailBinding
     private val userViewModel: UserViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentCardBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private var userId: Int = -1
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        binding = ActivityCardDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cardDetailMain)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    onBoardingViewModel.getSavedUserId().collect { userId ->
-                        if (userId != null) {
-                            Timber.d("## [userId] 조회됨 - $userId")
-                            userViewModel.getCard(userId.toString())
-                        }
+        userId = intent.getIntExtra("userId", -1)
+        Timber.e("## [상세화면] userId : $userId")
+
+        userViewModel.getCard(userId.toString())
+
+        lifecycleScope.launch {
+            userViewModel.cardState.collect { state ->
+                when (state) {
+                    is UiState.Error -> {
+                        Timber.e("## [명함 조회] Error - ${state.message}")
+                        Toast.makeText(this@CardDetailActivity, state.message, Toast.LENGTH_SHORT).show()
                     }
-                }
-
-                launch {
-                    userViewModel.cardState.collect { cardState ->
-                        when (cardState) {
-                            is UiState.Error -> {
-                                Timber.e("## [명함 조회] Error - ${cardState.message}")
-                                Toast.makeText(requireContext(), cardState.message, Toast.LENGTH_SHORT).show()
-                            }
-                            UiState.Idle -> {
-                                Timber.d("## [명함 조회] Idle")
-                            }
-                            UiState.Loading -> {
-                                Timber.d("## [명함 조회] Loading")
-                            }
-                            is UiState.Success -> {
-                                val card = cardState.data
-                                Timber.d("## [명함 조회] 성공 - card : $card")
-                                updateCardUI(card)
-                            }
-                        }
+                    UiState.Idle -> {
+                        Timber.d("## [명함 조회] Idle")
+                    }
+                    UiState.Loading -> {
+                        Timber.d("## [명함 조회] Loading")
+                    }
+                    is UiState.Success -> {
+                        val card = state.data
+                        Timber.d("## [명함 조회] 성공 - card : $card")
+                        updateCardUI(card)
                     }
                 }
             }
@@ -77,7 +66,7 @@ class CardFragment : Fragment() {
     }
 
     private fun updateCardUI(card: Card) {
-        binding.apply {
+        binding.run {
             tvName.text = card.nickname
             tvJob.text = card.jobGroup.toString()
             llTech.removeAllViews()
@@ -98,7 +87,7 @@ class CardFragment : Fragment() {
      * @param index TextView의 인덱스 (첫 번째 항목은 marginStart 없음)
      */
     private fun createTechStackTextView(text: String, index: Int): TextView {
-        return TextView(requireContext()).apply {
+        return TextView(this).apply {
             // 텍스트 설정
             this.text = text
 
@@ -137,5 +126,4 @@ class CardFragment : Fragment() {
             typeface = resources.getFont(R.font.pretendard_medium)
         }
     }
-
 }

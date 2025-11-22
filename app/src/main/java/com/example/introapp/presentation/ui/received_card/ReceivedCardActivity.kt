@@ -1,5 +1,6 @@
 package com.example.introapp.presentation.ui.received_card
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -14,6 +15,7 @@ import com.example.introapp.R
 import com.example.introapp.databinding.ActivityReceivedCardBinding
 import com.example.introapp.domain.entity.CardSummary
 import com.example.introapp.domain.entity.JobGroup
+import com.example.introapp.presentation.ui.detail.CardDetailActivity
 import com.example.introapp.presentation.viewmodel.OnBoardingViewModel
 import com.example.introapp.presentation.viewmodel.UiState
 import com.example.introapp.presentation.viewmodel.UserViewModel
@@ -137,6 +139,10 @@ class ReceivedCardActivity : AppCompatActivity() {
             receivedCardAdapter.setOnItemClickListener { cardSummary ->
                 Timber.d("## [리사이클러뷰] 아이템 클릭 - jobGroup: ${cardSummary.jobGroup}, nickname: ${cardSummary.nickname}")
                 // TODO: 명함 상세 화면으로 이동
+                startActivity(
+                    Intent(this@ReceivedCardActivity, CardDetailActivity::class.java)
+                        .putExtra("userId", cardSummary.userId)
+                )
             }
         }
     }
