@@ -28,10 +28,19 @@ enum class JobGroup(val value: String, val displayName: String) {
     companion object {
         /**
          * API value로 JobGroup 찾기 (예: "PM", "DESIGNER")
+         * UI 문자열 형식도 지원 (예: "PM(기획)", "웹", "백엔드")
          */
         fun from(value: String): JobGroup {
-            return entries.find { it.value.equals(value, ignoreCase = true) }
-                ?: throw IllegalArgumentException("Unknown JobGroup: $value")
+            // 1. 괄호 제거 및 정규화
+            val normalized = value.split("(").firstOrNull()?.trim() ?: value
+
+            // 2. value로 매칭 시도 (대소문자 무시)
+            entries.find { it.value.equals(normalized, ignoreCase = true) }?.let { return it }
+
+            // 3. displayName으로 매칭 시도
+            entries.find { it.displayName.equals(normalized, ignoreCase = true) }?.let { return it }
+
+            throw IllegalArgumentException("Unknown JobGroup: $value")
         }
 
         /**

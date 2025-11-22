@@ -85,7 +85,7 @@ class OnboardingFragment5 : Fragment() {
         val job = viewModel.onboardingData.value.page2.job
 
         val imageRes = when (job) {
-            "PM" -> R.drawable.pm_onboarding_profile
+            "PM(기획)" -> R.drawable.pm_onboarding_profile
             "DESIGNER" -> R.drawable.design_onboarding_profile
             "WEB" -> R.drawable.web_onboarding_profile
             "BACKEND" -> R.drawable.backend_onboarding_profile
