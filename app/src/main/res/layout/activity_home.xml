@@ -65,7 +65,16 @@
             android:layout_weight="1"
             android:text="나의 코드"
             style="@style/ToggleButtonStyle" />
-
     </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <!--프래그먼트들이 들어갈 프레임레이아웃    -->
+    <FrameLayout
+        android:id="@+id/homeFrm"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabs"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
